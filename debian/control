@@ -9,3 +9,8 @@ Package: linux-image-wurzelwerk-imx28
 Architecture: armel
 Depends: ${misc:Depends}
 Description: Wurzelwerk Kernel for NXP i.MX28 Processors
+
+Package: imx28-mxsboot
+Architecture: any
+Depends: ${misc:Depends}
+Description: U-Boot tool for bootstream things
