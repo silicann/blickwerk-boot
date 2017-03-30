@@ -6,6 +6,6 @@ Build-Depends: debhelper (>= 9), dh-exec
 Standards-Version: 3.9.8
 
 Package: linux-image-wurzelwerk-imx28
-Architecture: any
+Architecture: armel
 Depends: ${misc:Depends}
 Description: Wurzelwerk Kernel for NXP i.MX28 Processors
