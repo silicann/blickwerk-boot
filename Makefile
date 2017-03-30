@@ -69,9 +69,9 @@ build_uboot: $(STAMP_UBOOT_BUILT)
 build_linux: $(STAMP_LINUX_BUILT)
 
 install: build_uboot build_linux
-	INSTALL_MOD_PATH=../$(DESTDIR) $(MAKE) -C $(DIR_LINUX) modules_install ARCH=arm CROSS_COMPILE=$(COMPILER_PATH)
-	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)*/source
-	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)*/build
+	$(MAKE) -C $(DIR_LINUX) modules_install ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) INSTALL_MOD_PATH="$(abspath $(DESTDIR))"
+	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)/source
+	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)/build
 
 	mkdir -p $(DESTDIR)/boot/
 	# copy uboot related files (elf)s
