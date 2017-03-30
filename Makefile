@@ -60,7 +60,7 @@ $(STAMP_LINUX_BUILT): $(STAMP_LINUX_PATCH)
 	cp $(DIR_LINUX_CONFIG)/configuration $(DIR_LINUX)/.config
 	cp $(DIR_LINUX_CONFIG)/imx28-pcsx.dts $(DIR_LINUX)/arch/arm/boot/dts/imx28-pcsx.dts
 	cp $(DIR_LINUX_CONFIG)/pcs-x.dtsi $(DIR_LINUX)/arch/arm/boot/dts/pcs-x.dtsi
-	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) KBUILD_CFLAGS_MODULE=$(MODULE_FLAGS)
+	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) KBUILD_CFLAGS_MODULE="$(MODULE_FLAGS)"
 	touch "$(STAMP_LINUX_BUILT)"
 
 patch_uboot: $(STAMP_UBOOT_PATCH)
