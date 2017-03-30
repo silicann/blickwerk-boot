@@ -7,6 +7,7 @@ PWD = $(shell pwd)
 COMPILER_PATH = /usr/bin/arm-linux-gnueabi-
 NPROCS=$(shell nproc --all)
 NMAKEJOBS=$(shell expr $(NPROCS) \+ 1)
+MODULE_FLAGS = -DMODULE -fno-pic
 DEBIAN_BUILDPACKAGE_COMMAND = dpkg-buildpackage -us -uc
 
 # dirs
@@ -56,10 +57,10 @@ $(STAMP_LINUX_PATCH):
 
 $(STAMP_LINUX_BUILT): $(STAMP_LINUX_PATCH)
 	mkdir -p "$(DIR_BUILD)"
-	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) urwerk_defconfig
-	#for debuggin boot problems run this defconfig
-	#$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) urwerk_defconfig
-	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH)
+	cp $(DIR_LINUX_CONFIG)/configuration $(DIR_LINUX)/.config
+	cp $(DIR_LINUX_CONFIG)/imx28-pcsx.dts $(DIR_LINUX)/arch/arm/boot/dts/imx28-pcsx.dts
+	cp $(DIR_LINUX_CONFIG)/pcs-x.dtsi $(DIR_LINUX)/arch/arm/boot/dts/pcs-x.dtsi
+	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) KBUILD_CFLAGS_MODULE=$(MODULE_FLAGS)
 	touch "$(STAMP_LINUX_BUILT)"
 
 patch_uboot: $(STAMP_UBOOT_PATCH)
