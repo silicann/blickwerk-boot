@@ -1,3 +1,9 @@
+linux-image-wurzelwerk-imx28 (1.0.3-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Konrad Mohrfeldt <konrad@localhost.localdomain>  Thu, 30 Mar 2017 20:31:45 +0200
+
 linux-image-wurzelwerk-imx28 (1.0.2-1) unstable; urgency=medium
 
   * New upstream release
