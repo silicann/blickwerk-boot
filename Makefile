@@ -97,6 +97,7 @@ clean_linux:
 	if GIT_DIR="$(DIR_LINUX)/.git" git rev-parse > /dev/null 2>&1; then \
 		git -C "$(DIR_LINUX)" reset --hard; \
 		git -C "$(DIR_LINUX)" clean -f -d; \
+		git submodule update "$(DIR_LINUX)"; \
 		rm -f "$(STAMP_LINUX_BUILT)"; \
 		rm -f "$(STAMP_LINUX_PATCH)"; \
 	fi
@@ -107,6 +108,7 @@ clean_uboot:
 	if GIT_DIR="$(DIR_UBOOT)/.git" git rev-parse > /dev/null 2>&1; then \
 		git -C "$(DIR_UBOOT)" reset --hard; \
 		git -C "$(DIR_UBOOT)" clean -f -d; \
+		git submodule update "$(DIR_UBOOT)"; \
 		rm -f "$(STAMP_UBOOT_BUILT)"; \
 		rm -f "$(STAMP_UBOOT_PATCH)"; \
 	fi
