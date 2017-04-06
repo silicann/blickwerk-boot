@@ -584,7 +584,7 @@ index 0000000000..922214194b
 +    "baudrate=115200\0" \
 +	"console_debug_line=ttyAMA0\0" \
 +    "console_line=ttyAPP0\0" \
-+	"memroot= root=/dev/root rw rootwait\0" \
++	"memroot= root=/dev/root ro rootwait\0" \
 +    "memargs=setenv bootargs console=${console_debug_line},${baudrate} console=${console_line},${baudrate} ${memroot} \0" \
 +    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
 +
