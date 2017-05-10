@@ -1,6 +1,6 @@
-# this requires the package "wurzelwerk-build-essential" to be installed
-# alternatively you can add an include directory: "make -I make.d ..."
-include wurzelwerk/packaging.mk
+include makefilet-download-ondemand.mk
+
+DEBIAN_UPLOAD_TARGET = silicann
 
 # definitions
 PWD = $(shell pwd)
@@ -8,7 +8,6 @@ COMPILER_PATH = /usr/bin/arm-linux-gnueabi-
 NPROCS=$(shell nproc --all)
 NMAKEJOBS=$(shell expr $(NPROCS) \+ 1)
 MODULE_FLAGS = -DMODULE -fno-pic
-DEBIAN_BUILDPACKAGE_COMMAND = dpkg-buildpackage -us -uc
 
 # dirs
 DIR_CONFIG = $(PWD)/configurations
