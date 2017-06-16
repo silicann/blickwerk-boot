@@ -1,4 +1,4 @@
-From da6717a8a08ec623e4908ba2bb619c3278a2e9c7 Mon Sep 17 00:00:00 2001
+From c7dc269ce25240b071dc4125fa4bac953f66b2e8 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 16:05:02 +0100
 Subject: [PATCH 4/4] spi: spidev: add a compatible string to spidev driver
