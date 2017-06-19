@@ -1,4 +1,4 @@
-From 0b4800e1e07712043b95dc6dfc3f627dce690fb8 Mon Sep 17 00:00:00 2001
+From 79413fd9290f59b5ad080de94c81a87b9498e4d2 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 16:02:20 +0100
 Subject: [PATCH 3/4] arm: imx28: clk: Add clk bypasses for ssp2/3

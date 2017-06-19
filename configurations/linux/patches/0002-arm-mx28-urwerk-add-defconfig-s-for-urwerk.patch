@@ -1,22 +1,22 @@
-From 4779be9893f7c7e64658dcc2f793694be6d4a900 Mon Sep 17 00:00:00 2001
+From ba4845538de2a5840e86bbad7a1ac8960f343929 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 15:58:52 +0100
 Subject: [PATCH 2/4] arm: mx28: urwerk: add defconfig(s) for urwerk
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
- arch/arm/configs/urwerk_defconfig             | 271 +++++++++++++++++++++++++
+ arch/arm/configs/urwerk_defconfig             | 270 +++++++++++++++++++++++++
  arch/arm/configs/urwerk_earlyprintk_defconfig | 277 ++++++++++++++++++++++++++
- 2 files changed, 548 insertions(+)
+ 2 files changed, 547 insertions(+)
  create mode 100644 arch/arm/configs/urwerk_defconfig
  create mode 100644 arch/arm/configs/urwerk_earlyprintk_defconfig
 
 diff --git a/arch/arm/configs/urwerk_defconfig b/arch/arm/configs/urwerk_defconfig
 new file mode 100644
-index 000000000000..ac0f8fef3795
+index 000000000000..154944b83984
 --- /dev/null
 +++ b/arch/arm/configs/urwerk_defconfig
-@@ -0,0 +1,271 @@
+@@ -0,0 +1,270 @@
 +CONFIG_COMPILE_TEST=y
 +CONFIG_DEFAULT_HOSTNAME="urwerk"
 +# CONFIG_SWAP is not set
@@ -59,7 +59,7 @@ index 000000000000..ac0f8fef3795
 +CONFIG_NET=y
 +CONFIG_PACKET=m
 +CONFIG_PACKET_DIAG=m
-+CONFIG_UNIX=m
++CONFIG_UNIX=y
 +CONFIG_UNIX_DIAG=m
 +CONFIG_INET=y
 +CONFIG_IP_MULTICAST=y
@@ -194,7 +194,6 @@ index 000000000000..ac0f8fef3795
 +CONFIG_USB_EHCI_HCD_PLATFORM=m
 +CONFIG_USB_ACM=m
 +CONFIG_USB_WDM=m
-+CONFIG_USB_STORAGE=m
 +CONFIG_USBIP_CORE=m
 +CONFIG_USBIP_VHCI_HCD=m
 +CONFIG_USBIP_HOST=m
@@ -290,7 +289,7 @@ index 000000000000..ac0f8fef3795
 +# CONFIG_XZ_DEC_SPARC is not set
 diff --git a/arch/arm/configs/urwerk_earlyprintk_defconfig b/arch/arm/configs/urwerk_earlyprintk_defconfig
 new file mode 100644
-index 000000000000..e24679dc4374
+index 000000000000..906f9b703860
 --- /dev/null
 +++ b/arch/arm/configs/urwerk_earlyprintk_defconfig
 @@ -0,0 +1,277 @@
@@ -336,7 +335,7 @@ index 000000000000..e24679dc4374
 +CONFIG_NET=y
 +CONFIG_PACKET=m
 +CONFIG_PACKET_DIAG=m
-+CONFIG_UNIX=m
++CONFIG_UNIX=y
 +CONFIG_UNIX_DIAG=m
 +CONFIG_INET=y
 +CONFIG_IP_MULTICAST=y
