@@ -1,4 +1,4 @@
-From 236c14d4739b56990dd46735ed3c4efa8e926eac Mon Sep 17 00:00:00 2001
+From c1331d436809fe2e9e400e9e6ef42aca38e1bb94 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 14 Jun 2017 07:27:54 +0200
 Subject: [PATCH 3/3] rework urwerk config.h
@@ -21,7 +21,7 @@ index ffc2562f93..d51be0b1d2 100644
  #ifdef CONFIG_ARCH_EBSA110
  # ifdef machine_arch_type
 diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
-index 922214194b..10b7a502b4 100644
+index 0f362c9e94..295095c38a 100644
 --- a/include/configs/urwerk.h
 +++ b/include/configs/urwerk.h
 @@ -13,7 +13,6 @@
@@ -157,7 +157,7 @@ index 922214194b..10b7a502b4 100644
 @@ -169,7 +83,7 @@
  	"console_debug_line=ttyAMA0\0" \
      "console_line=ttyAPP0\0" \
- 	"memroot= root=/dev/root rw rootwait\0" \
+ 	"memroot= root=/dev/root ro rootwait\0" \
 -    "memargs=setenv bootargs console=${console_debug_line},${baudrate} console=${console_line},${baudrate} ${memroot} \0" \
 +    "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
      "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\

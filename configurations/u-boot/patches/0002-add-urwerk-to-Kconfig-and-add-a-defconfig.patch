@@ -1,4 +1,4 @@
-From fa3dfd1b0c1426c59a30ff09da77f12b378e4244 Mon Sep 17 00:00:00 2001
+From 8ea29162227609a101483a58f80fee0db7b0676d Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sat, 18 Mar 2017 11:11:47 +0100
 Subject: [PATCH 2/3] add urwerk to Kconfig and add a defconfig
