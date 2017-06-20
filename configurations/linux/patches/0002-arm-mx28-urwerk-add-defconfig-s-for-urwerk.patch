@@ -1,7 +1,7 @@
-From 046b4306e72c1776c0b20c4465b5acea8545c45e Mon Sep 17 00:00:00 2001
+From ba4845538de2a5840e86bbad7a1ac8960f343929 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 15:58:52 +0100
-Subject: [PATCH 2/4] arm: mx28: urwerk: add defconfig(s) for urwerk
+Subject: [PATCH 2/5] arm: mx28: urwerk: add defconfig(s) for urwerk
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
@@ -13,7 +13,7 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
 
 diff --git a/arch/arm/configs/urwerk_defconfig b/arch/arm/configs/urwerk_defconfig
 new file mode 100644
-index 000000000000..3e2bc62d43d8
+index 000000000000..154944b83984
 --- /dev/null
 +++ b/arch/arm/configs/urwerk_defconfig
 @@ -0,0 +1,270 @@
@@ -571,5 +571,5 @@ index 000000000000..906f9b703860
 +# CONFIG_XZ_DEC_IA64 is not set
 +# CONFIG_XZ_DEC_SPARC is not set
 -- 
-2.11.0
+2.13.1
 
