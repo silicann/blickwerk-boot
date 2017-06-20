@@ -1,4 +1,4 @@
-From 4f55a44911831f127bb54ba06e77dfd354116ffc Mon Sep 17 00:00:00 2001
+From 1ddd46bc3edabf63aa9fcc2097f2dbe3c5a9acb0 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 15:56:53 +0100
 Subject: [PATCH 1/4] arm: dts: urwerk dts file added
@@ -350,5 +350,5 @@ index 000000000000..68037ce20f0d
 +
 +	
 -- 
-2.13.1
+2.11.0
 

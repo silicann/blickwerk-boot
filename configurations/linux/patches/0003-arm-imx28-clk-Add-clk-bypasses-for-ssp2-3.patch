@@ -1,4 +1,4 @@
-From 79413fd9290f59b5ad080de94c81a87b9498e4d2 Mon Sep 17 00:00:00 2001
+From 69128530837337a9d06e471f07760755a3f7b0a0 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 16:02:20 +0100
 Subject: [PATCH 3/4] arm: imx28: clk: Add clk bypasses for ssp2/3
@@ -39,5 +39,5 @@ index 6b572b759f9a..5de42dd2c6c8 100644
  	/*
  	 * 480 MHz seems too high to be ssp clock source directly,
 -- 
-2.13.1
+2.11.0
 
