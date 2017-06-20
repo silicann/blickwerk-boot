@@ -1,0 +1,43 @@
+From 874343ba2f31d0116e2acb8794d055bc87dd954f Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Tue, 20 Jun 2017 21:01:31 +0200
+Subject: [PATCH 4/4] arm: mxs: read the whole mac address from fuses
+
+before the code assumed a fixed part of the mac address we want to be
+hundert percent flexible that why we read the first 32 bits from
+hw_cust0 register and the remaining 16 bits from hw_cust1.
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/cpu/arm926ejs/mxs/mxs.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/cpu/arm926ejs/mxs/mxs.c b/arch/arm/cpu/arm926ejs/mxs/mxs.c
+index 229862079a..a796543a40 100644
+--- a/arch/arm/cpu/arm926ejs/mxs/mxs.c
++++ b/arch/arm/cpu/arm926ejs/mxs/mxs.c
+@@ -261,12 +261,17 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
+ 	}
+ 
+ 	data = readl(&ocotp_regs->hw_ocotp_cust0);
++	mac[0] = (data >> 24 ) & 0xff;
++	mac[1] = (data >> 16) & 0xff;
++	mac[2] = (data >> 8) & 0xff;
++	mac[3] = data & 0xff;
+ 
+-	mac[2] = (data >> 24) & 0xff;
+-	mac[3] = (data >> 16) & 0xff;
+-	mac[4] = (data >> 8) & 0xff;
++	data = readl(&ocotp_regs->hw_ocotp_cust1);
++	mac[4] = (data >>8 ) & 0xff;
+ 	mac[5] = data & 0xff;
+-	mx28_adjust_mac(dev_id, mac);
++
++	//we dont call this as we maybe will have multiple mac address ranges
++	//mx28_adjust_mac(dev_id, mac);
+ }
+ #else
+ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
+-- 
+2.13.1
+
