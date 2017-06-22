@@ -1,7 +1,7 @@
-From 79413fd9290f59b5ad080de94c81a87b9498e4d2 Mon Sep 17 00:00:00 2001
+From 417005e14861f59984d49c875710d790cc09a6aa Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 16:02:20 +0100
-Subject: [PATCH 3/5] arm: imx28: clk: Add clk bypasses for ssp2/3
+Subject: [PATCH 3/7] arm: imx28: clk: Add clk bypasses for ssp2/3
 
 This bypasses are necessary to make the spi interfaces stable. The
 original clocks have a problem in hardware and are not freely

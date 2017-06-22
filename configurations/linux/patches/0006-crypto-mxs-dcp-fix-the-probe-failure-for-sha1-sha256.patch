@@ -1,0 +1,33 @@
+From 1a439024aff642a747ced5289b10ec1d2d8feb8f Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Thu, 22 Jun 2017 20:37:52 +0200
+Subject: [PATCH 6/7] crypto: mxs-dcp: fix the probe failure for sha1 sha256
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ drivers/crypto/mxs-dcp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/crypto/mxs-dcp.c b/drivers/crypto/mxs-dcp.c
+index 59ed54e464a9..f8d071b804cb 100644
+--- a/drivers/crypto/mxs-dcp.c
++++ b/drivers/crypto/mxs-dcp.c
+@@ -836,6 +836,7 @@ static struct ahash_alg dcp_sha1_alg = {
+ 	.digest	= dcp_sha_digest,
+ 	.halg	= {
+ 		.digestsize	= SHA1_DIGEST_SIZE,
++        .statesize      = sizeof(struct sha1_state),
+ 		.base		= {
+ 			.cra_name		= "sha1",
+ 			.cra_driver_name	= "sha1-dcp",
+@@ -860,6 +861,7 @@ static struct ahash_alg dcp_sha256_alg = {
+ 	.digest	= dcp_sha_digest,
+ 	.halg	= {
+ 		.digestsize	= SHA256_DIGEST_SIZE,
++        .statesize      = sizeof(struct sha256_state),
+ 		.base		= {
+ 			.cra_name		= "sha256",
+ 			.cra_driver_name	= "sha256-dcp",
+-- 
+2.13.1
+

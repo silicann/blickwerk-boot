@@ -1,7 +1,7 @@
-From d8551d51cc7b065c92bb5a54a0cf4d72c5be7223 Mon Sep 17 00:00:00 2001
+From 40946990cd9d55dd43fa2696b011cc73fe7d2ccc Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 20 Jun 2017 19:04:31 +0200
-Subject: [PATCH 5/5] arm: dts: urwerk: reconfigured the (debug)-uarts
+Subject: [PATCH 5/7] arm: dts: urwerk: reconfigured the (debug)-uarts
 
 Now we have to possible debug uart(s) the external and the one on the
 testpads, this allows the following configurations:
