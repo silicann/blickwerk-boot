@@ -42,7 +42,7 @@ $(STAMP_UBOOT_PATCH):
 
 $(STAMP_UBOOT_BUILT): $(STAMP_UBOOT_PATCH)
 	mkdir -p "$(DIR_BUILD)"
-	$(MAKE) -C $(DIR_UBOOT) ARCH=arm urwerk_defconfig
+	$(MAKE) -C $(DIR_UBOOT) ARCH=arm urwerk_production_defconfig
 	$(MAKE) -C $(DIR_UBOOT) -j$(NMAKEJOBS) u-boot.sb ARCH=arm CROSS_COMPILE=$(COMPILER_PATH)
 	touch "$(STAMP_UBOOT_BUILT)"
 

@@ -1,0 +1,48 @@
+From 3d30c2b1ee3ce5d74043b0eee5eb6d62148d2f0a Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Fri, 23 Jun 2017 18:41:13 +0200
+Subject: [PATCH 6/7] urwerk: defconfig: add the urwerk_production_defconfig
+
+* this silents the console
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ configs/urwerk_production_defconfig | 13 +++++++++++++
+ include/configs/urwerk.h            |  1 +
+ 2 files changed, 14 insertions(+)
+ create mode 100644 configs/urwerk_production_defconfig
+
+diff --git a/configs/urwerk_production_defconfig b/configs/urwerk_production_defconfig
+new file mode 100644
+index 0000000000..dcb00726ad
+--- /dev/null
++++ b/configs/urwerk_production_defconfig
+@@ -0,0 +1,13 @@
++CONFIG_ARM=y
++CONFIG_TARGET_URWERK=y
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="SILENT_CONSOLE=1,SILENT_U_BOOT_ONLY=1,SYS_DEVICE_NULLDEV=1"
++CONFIG_CMD_TFTPPUT=y
++CONFIG_CMD_TFTPSRV=y
++CONFIG_CMD_DHCP=y
++CONFIG_CMD_MII=y
++CONFIG_CMD_PING=y
++CONFIG_PHYLIB=y
++CONFIG_NETDEVICES=y
++CONFIG_OF_LIBFDT=y
++# CONFIG_EFI_LOADER is not set
+diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
+index 295095c38a..1578d50406 100644
+--- a/include/configs/urwerk.h
++++ b/include/configs/urwerk.h
+@@ -82,6 +82,7 @@
+     "baudrate=115200\0" \
+ 	"console_debug_line=ttyAMA0\0" \
+     "console_line=ttyAPP0\0" \
++	"silent=1 \0" \
+ 	"memroot= root=/dev/root ro rootwait\0" \
+     "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
+     "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
+-- 
+2.13.1
+
