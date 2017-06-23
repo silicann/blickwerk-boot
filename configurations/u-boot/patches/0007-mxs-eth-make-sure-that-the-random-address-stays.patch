@@ -35,8 +35,8 @@ index 56e2389708..1968e23a0c 100644
 -	mac[4] = (data >>24) & 0xff;
 -	mac[5] = (data >>16) & 0xff;
 +	if(data!=0){
-+		mac[4] = (data >>24) & 0xff;
-+		mac[5] = (data >>16) & 0xff;
++		mac[4] = (data >> 8) & 0xff;
++		mac[5] = data & 0xff;
 +	}
  
  	//we dont call this as we maybe will have multiple mac address ranges
