@@ -1,3 +1,10 @@
+linux-image-wurzelwerk-imx28 (1.0.6-1) unstable; urgency=medium
+
+  [ build@babajaga.neusy ]
+  * New upstream release
+
+ --  <build@babajaga.neusy>  Fri, 23 Jun 2017 23:07:45 +0000
+
 linux-image-wurzelwerk-imx28 (1.0.5-1) unstable; urgency=medium
 
   [ build@babajaga.neusy ]
