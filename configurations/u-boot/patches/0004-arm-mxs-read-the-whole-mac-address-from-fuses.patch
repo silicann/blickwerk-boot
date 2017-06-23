@@ -1,7 +1,7 @@
-From bf1cb0b46df5c6743a711e37756b4b3402884085 Mon Sep 17 00:00:00 2001
+From db1c9a4fe75d7eb971dcfdb356b2c9a645462bfc Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 20 Jun 2017 21:01:31 +0200
-Subject: [PATCH 4/7] arm: mxs: read the whole mac address from fuses
+Subject: [PATCH 4/8] arm: mxs: read the whole mac address from fuses
 
 before the code assumed a fixed part of the mac address we want to be
 hundert percent flexible that why we read the first 32 bits from
@@ -40,5 +40,5 @@ index 229862079a..56e2389708 100644
  #else
  void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
 -- 
-2.13.1
+2.11.0
 

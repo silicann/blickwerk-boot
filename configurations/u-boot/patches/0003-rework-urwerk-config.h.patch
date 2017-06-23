@@ -1,7 +1,7 @@
-From a34f148c9981cdff97b407692c3d06a76c7ce0fe Mon Sep 17 00:00:00 2001
+From 5b370f58bdd9574464fdb9f832db0906ecbc1219 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 14 Jun 2017 07:27:54 +0200
-Subject: [PATCH 3/7] rework urwerk config.h
+Subject: [PATCH 3/8] rework urwerk config.h
 
 ---
  arch/arm/include/asm/mach-types.h |  1 -
@@ -164,5 +164,5 @@ index 0f362c9e94..295095c38a 100644
  
  /* The rest of the configuration is shared */
 -- 
-2.13.1
+2.11.0
 

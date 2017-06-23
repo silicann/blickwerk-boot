@@ -1,7 +1,7 @@
-From acfdd6a2209455d6a81cb4cd95276bbc512927df Mon Sep 17 00:00:00 2001
+From e9196e5f2f0ea7f4ea639ca4cbcbe09f03358bfd Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sat, 18 Mar 2017 11:11:47 +0100
-Subject: [PATCH 2/7] add urwerk to Kconfig and add a defconfig
+Subject: [PATCH 2/8] add urwerk to Kconfig and add a defconfig
 
 ---
  arch/arm/Kconfig                  |  7 +++++++
@@ -66,5 +66,5 @@ index 0000000000..ada88ac692
 +CONFIG_OF_LIBFDT=y
 +# CONFIG_EFI_LOADER is not set
 -- 
-2.13.1
+2.11.0
 
