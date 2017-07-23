@@ -1,7 +1,7 @@
 From d46054cd82edf3f8e39a401374d245240046888a Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Thu, 22 Jun 2017 21:08:40 +0200
-Subject: [PATCH 7/7] mxs: dts: urwerk: remove all i2c devices from dts
+Subject: [PATCH 7/9] mxs: dts: urwerk: remove all i2c devices from dts
 
 make i2c non modules(builtin)
 
@@ -117,5 +117,5 @@ index 154944b83984..c2bb030c5104 100644
  CONFIG_CRYPTO_LZO=m
  CONFIG_CRYPTO_842=m
 -- 
-2.13.1
+2.13.2
 

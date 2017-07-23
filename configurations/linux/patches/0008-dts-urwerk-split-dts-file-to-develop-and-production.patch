@@ -1,0 +1,213 @@
+From 10262ea7838d914caface6871199f75cba749921 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Sun, 23 Jul 2017 22:01:34 +0200
+Subject: [PATCH 8/9] dts: urwerk: split dts file to develop and production
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/boot/dts/Makefile                    |  3 +-
+ arch/arm/boot/dts/urwerk-develop.dts          | 42 +++++++++++++++++++++++++++
+ arch/arm/boot/dts/urwerk-production.dts       | 41 ++++++++++++++++++++++++++
+ arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} | 34 ++++++----------------
+ 4 files changed, 94 insertions(+), 26 deletions(-)
+ create mode 100755 arch/arm/boot/dts/urwerk-develop.dts
+ create mode 100755 arch/arm/boot/dts/urwerk-production.dts
+ rename arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} (83%)
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index aa0383137d3f..162fd148e6c8 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -382,7 +382,8 @@ dtb-$(CONFIG_ARCH_MXS) += \
+ 	imx28-m28evk.dtb \
+ 	imx28-sps1.dtb \
+ 	imx28-tx28.dtb \
+-	urwerk.dtb
++	urwerk-production.dtb \
++	urwerk-develop.dtb
+ dtb-$(CONFIG_ARCH_NOMADIK) += \
+ 	ste-nomadik-s8815.dtb \
+ 	ste-nomadik-nhk15.dtb
+diff --git a/arch/arm/boot/dts/urwerk-develop.dts b/arch/arm/boot/dts/urwerk-develop.dts
+new file mode 100755
+index 000000000000..4e72921ec1d0
+--- /dev/null
++++ b/arch/arm/boot/dts/urwerk-develop.dts
+@@ -0,0 +1,42 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++/dts-v1/;
++#include "urwerk.dtsi"
++
++/ {
++	model = "Silicann Urwerk-platform";
++	compatible = "silicann,imx28-urwerk", "fsl,imx28";
++
++	memory {
++		reg = <0x40000000 0x08000000>;
++	};
++
++};
++
++//*************************************************************
++// ATTENTION: Only choose one DUART config each time,
++//            and be careful with AUART4, because they
++//            are using the same pins.
++// Intention: Normal boot mode: DUART on testpads, AUART4 as external serial port
++//            USB-Debug-Mode:  DUART on external serial port, AUART4 disabled
++//*************************************************************/
++
++&duart {
++
++	// duart on Urwerk's external RS232-Pins
++	pinctrl-0 = <&duart_pins_b>;
++	status = "ok";
++};
++
++&auart4 {
++	status = "disabled";
++};
+diff --git a/arch/arm/boot/dts/urwerk-production.dts b/arch/arm/boot/dts/urwerk-production.dts
+new file mode 100755
+index 000000000000..fb752317d49b
+--- /dev/null
++++ b/arch/arm/boot/dts/urwerk-production.dts
+@@ -0,0 +1,41 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++/dts-v1/;
++#include "urwerk.dtsi"
++
++/ {
++	model = "Silicann Urwerk-platform";
++	compatible = "silicann,imx28-urwerk", "fsl,imx28";
++
++	memory {
++		reg = <0x40000000 0x08000000>;
++	};
++
++};
++
++//*************************************************************
++// ATTENTION: Only choose one DUART config each time,
++//            and be careful with AUART4, because they
++//            are using the same pins.
++// Intention: Normal boot mode: DUART on testpads, AUART4 as external serial port
++//            USB-Debug-Mode:  DUART on external serial port, AUART4 disabled
++//*************************************************************/
++
++&duart {
++	// duart on Urwerk testpads
++	pinctrl-0 = <&duart_pins_a>;
++	status = "ok";
++};
++
++&auart4 {
++	status = "ok";
++};
+diff --git a/arch/arm/boot/dts/urwerk.dts b/arch/arm/boot/dts/urwerk.dtsi
+similarity index 83%
+rename from arch/arm/boot/dts/urwerk.dts
+rename to arch/arm/boot/dts/urwerk.dtsi
+index 51ca5f4d1ae3..56e899245b28 100755
+--- a/arch/arm/boot/dts/urwerk.dts
++++ b/arch/arm/boot/dts/urwerk.dtsi
+@@ -9,16 +9,9 @@
+  * http://www.gnu.org/copyleft/gpl.html
+  */
+ 
+-/dts-v1/;
+ #include "imx28.dtsi"
+ 
+ / {
+-	model = "Silicann Urwerk-platform";
+-	compatible = "silicann,imx28-urwerk", "fsl,imx28";
+-
+-	memory {
+-		reg = <0x40000000 0x08000000>;
+-	};
+ 	apb@80000000 {
+ 		apbh@80000000 {
+ 			ssp0: ssp@80010000 {
+@@ -83,31 +76,17 @@
+ 				status = "okay";
+ 			};
+ 
+-			//*************************************************************
+-			// ATTENTION: Only choose one DUART config each time,
+-			//            and be careful with AUART4, because they
+-			//            are using the same pins.
+-			// Intention: Normal boot mode: DUART on testpads, AUART4 as external serial port
+-			//            USB-Debug-Mode:  DUART on external serial port, AUART4 disabled
+-			//*************************************************************/
+ 			// duart on Urwerk testpads
+ 			duart: serial@80074000 {
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&duart_pins_a>;
+-				status = "okay";
++				status = "disabled";
+ 			};
+ 
+-			// duart on Urwerk's external RS232-Pins
+-			//duart: serial@80074000 {
+-			//	pinctrl-names = "default";
+-			//	pinctrl-0 = <&duart_pins_b>;
+-			//	status = "disabled";
+-			//};
+-
+ 			auart4: serial@80072000 {
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&auart4_2pins_b>;
+-				status = "okay";
++				status = "disabled";
+ 			};
+ 
+ 			// not used since Urwerk v1.5.3
+@@ -142,11 +121,16 @@
+ 	ahb@80080000 {
+ 		usb0: usb@80080000 {
+ 			pinctrl-names = "default";
+-			pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
++			pinctrl-0 = <&usb0_pins_a>;
+ 			vbus-supply = <&reg_usb0_vbus>;
+ 			status = "okay";
+ 		};
+ 
++		usb1: usb@80090000 {
++			vbus-supply = <&reg_usb1_vbus>;
++			status = "okay";
++		};
++
+ 		mac0: ethernet@800f0000 {
+ 			reg = <0x800f0000 0x4000>;
+ 			compatible = "fsl,imx28-fec";
+@@ -215,7 +199,7 @@
+ 			regulator-min-microvolt = <5000000>;
+ 			regulator-max-microvolt = <5000000>;
+ 			gpio = <&gpio3 9 0>;
+-			enable-active-high;
++			regulator-always-on;
+ 		};
+ 
+ 		reg_usb1_vbus: regulator@4 {
+-- 
+2.13.2
+

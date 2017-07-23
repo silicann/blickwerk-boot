@@ -1,7 +1,7 @@
 From 0cc8c5c128a0b6bc63df07d0ffe7692fe7897fb6 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 14 Mar 2017 15:58:52 +0100
-Subject: [PATCH 2/7] arm: mx28: urwerk: add defconfig(s) for urwerk
+Subject: [PATCH 2/9] arm: mx28: urwerk: add defconfig(s) for urwerk
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
@@ -571,5 +571,5 @@ index 000000000000..906f9b703860
 +# CONFIG_XZ_DEC_IA64 is not set
 +# CONFIG_XZ_DEC_SPARC is not set
 -- 
-2.13.1
+2.13.2
 
