@@ -89,7 +89,13 @@ install: build_uboot build_linux
 	cp $(DIR_UBOOT)/spl/u-boot-spl-nodtb.bin $(DESTDIR)/boot/u-boot-spl.bin
 	# copy linux related files (devicetree, kernel)
 	cp $(DIR_LINUX)/arch/arm/boot/zImage $(DESTDIR)/boot/.
-	cp $(DIR_LINUX)/arch/arm/boot/dts/urwerk.dtb $(DESTDIR)/boot/.
+	# copy production dts if production else develop
+
+ifeq ($(VARIANT),production)
+	cp $(DIR_LINUX)/arch/arm/boot/dts/urwerk-production.dtb $(DESTDIR)/boot/urwerk.dtb
+else
+	cp $(DIR_LINUX)/arch/arm/boot/dts/urwerk-develop.dtb $(DESTDIR)/boot/urwerk.dtb
+endif
 	echo "$(LINUX_NAME)" > $(DESTDIR)/boot/zImage.version
 
 
