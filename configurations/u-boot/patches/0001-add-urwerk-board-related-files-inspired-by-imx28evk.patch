@@ -1,4 +1,4 @@
-From 69da25f22b4d53025d3be8888347fe7fcf48ba45 Mon Sep 17 00:00:00 2001
+From 8b61f3496c9156d81f6e9f841b31500c361d82aa Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sat, 18 Mar 2017 11:11:29 +0100
 Subject: [PATCH 1/8] add urwerk board related files inspired by imx28evk
@@ -593,5 +593,5 @@ index 0000000000..0f362c9e94
 +
 +#endif /* __CONFIGS_URWERK_H__ */
 -- 
-2.11.0
+2.13.2
 

@@ -5,6 +5,7 @@ DEBIAN_UPLOAD_TARGET = silicann
 # definitions
 PWD = $(shell pwd)
 COMPILER_PATH = /usr/bin/arm-linux-gnueabi-
+VARIANT ?= production
 NPROCS=$(shell nproc --all)
 NMAKEJOBS=$(shell expr $(NPROCS) \+ 1)
 MODULE_FLAGS = -DMODULE -fno-pic
@@ -42,7 +43,17 @@ $(STAMP_UBOOT_PATCH):
 
 $(STAMP_UBOOT_BUILT): $(STAMP_UBOOT_PATCH)
 	mkdir -p "$(DIR_BUILD)"
+
+ifeq ($(VARIANT),development)
+	$(MAKE) -C $(DIR_UBOOT) ARCH=arm urwerk_development_defconfig
+endif
+ifeq ($(VARIANT),init)
+	$(MAKE) -C $(DIR_UBOOT) ARCH=arm urwerk_init_defconfig
+endif
+ifeq ($(VARIANT),production)
 	$(MAKE) -C $(DIR_UBOOT) ARCH=arm urwerk_production_defconfig
+endif
+
 	$(MAKE) -C $(DIR_UBOOT) -j$(NMAKEJOBS) u-boot.sb ARCH=arm CROSS_COMPILE=$(COMPILER_PATH)
 	touch "$(STAMP_UBOOT_BUILT)"
 
@@ -56,7 +67,9 @@ $(STAMP_LINUX_PATCH):
 
 $(STAMP_LINUX_BUILT): $(STAMP_LINUX_PATCH)
 	mkdir -p "$(DIR_BUILD)"
-	$(MAKE) -C $(DIR_LINUX) ARCH=arm urwerk_defconfig
+	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) urwerk_defconfig
+	#for debugging of kernel boot problems run this defconfig
+	#$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) urwerk_earlyprintk_defconfig
 	$(MAKE) -C $(DIR_LINUX) -j$(NMAKEJOBS) ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) KBUILD_CFLAGS_MODULE="$(MODULE_FLAGS)"
 	touch "$(STAMP_LINUX_BUILT)"
 
@@ -67,8 +80,8 @@ build_linux: $(STAMP_LINUX_BUILT)
 
 install: build_uboot build_linux
 	$(MAKE) -C $(DIR_LINUX) modules_install ARCH=arm CROSS_COMPILE=$(COMPILER_PATH) INSTALL_MOD_PATH="$(abspath $(DESTDIR))"
-	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)/source
-	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)/build
+	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)*/source
+	rm -f $(DESTDIR)/lib/modules/$(LINUX_NAME)*/build
 
 	mkdir -p $(DESTDIR)/boot/
 	# copy uboot related files (elf)s

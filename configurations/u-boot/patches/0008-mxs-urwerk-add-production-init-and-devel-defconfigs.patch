@@ -1,0 +1,210 @@
+From 3abac57dba919d853e4251721baea3be9df0e107 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Wed, 12 Jul 2017 19:34:36 +0200
+Subject: [PATCH 8/8] mxs: urwerk: add production,init and devel defconfigs
+
+make sure that the uart *really* stays silent aka dead for production,
+change the muxing depending on defconfig.
+
+move the default uboot env from bootcmd definition to EXTRA_ENV_SETTINGS
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ board/silicann/urwerk/iomux.c                      | 10 +++--
+ board/silicann/urwerk/urwerk.c                     |  5 +++
+ configs/urwerk_development_defconfig               | 13 +++++++
+ .../{urwerk_defconfig => urwerk_init_defconfig}    | 10 ++---
+ configs/urwerk_production_defconfig                | 11 +-----
+ include/configs/urwerk.h                           | 44 ++++++++++++++++++----
+ 6 files changed, 68 insertions(+), 25 deletions(-)
+ create mode 100644 configs/urwerk_development_defconfig
+ rename configs/{urwerk_defconfig => urwerk_init_defconfig} (50%)
+
+diff --git a/board/silicann/urwerk/iomux.c b/board/silicann/urwerk/iomux.c
+index ef9f8af265..3d9fd527cf 100644
+--- a/board/silicann/urwerk/iomux.c
++++ b/board/silicann/urwerk/iomux.c
+@@ -22,13 +22,17 @@
+ #define	MUX_CONFIG_USB0	(MXS_PAD_3V3 | MXS_PAD_8MA | MXS_PAD_NOPULL)
+ 
+ const iomux_cfg_t iomux_setup[] = {
++#ifdef CONFIG_URWERK_PRODUCTION
+ 	/* DUART  ON INTERNAL TESTPADS*/
+ 	MX28_PAD_PWM0__DUART_RX,
+ 	MX28_PAD_PWM1__DUART_TX,
+-
++#elif defined(CONFIG_URWERK_DEVELOPMENT) || defined(CONFIG_URWERK_INIT)
+  	/* DUART ON EXTERNAL UART */
+-	/*MX28_PAD_AUART0_CTS__DUART_RX,*/
+-	/*MX28_PAD_AUART0_RTS__DUART_TX,*/
++	MX28_PAD_AUART0_CTS__DUART_RX,
++	MX28_PAD_AUART0_RTS__DUART_TX,
++#else
++#error "No DUART Muxing select since PRODUCTION or DEVELOPMENT or INIT was not selected"
++#endif
+ 
+     /*UART0*/
+     MX28_PAD_AUART0_RX__AUART0_RX,
+diff --git a/board/silicann/urwerk/urwerk.c b/board/silicann/urwerk/urwerk.c
+index 11931c7508..62f064a758 100644
+--- a/board/silicann/urwerk/urwerk.c
++++ b/board/silicann/urwerk/urwerk.c
+@@ -54,6 +54,11 @@ int board_early_init_f(void)
+ 	/* Set contrast to maximum */
+ 	/*gpio_direction_output(MX28_PAD_PWM2__GPIO_3_18, 1);*/
+ 
++/* since we are having a early init we already need to silence it here*/
++#ifdef CONFIG_URWERK_PRODUCTION
++	gd->flags |= (GD_FLG_SILENT | GD_FLG_DISABLE_CONSOLE);
++#endif
++
+ 	return 0;
+ }
+ 
+diff --git a/configs/urwerk_development_defconfig b/configs/urwerk_development_defconfig
+new file mode 100644
+index 0000000000..5519de9b6a
+--- /dev/null
++++ b/configs/urwerk_development_defconfig
+@@ -0,0 +1,13 @@
++CONFIG_ARM=y
++CONFIG_TARGET_URWERK=y
++CONFIG_SPL=y
++CONFIG_SYS_EXTRA_OPTIONS="URWERK_DEVELOPMENT=1"
++CONFIG_BOOTDELAY=3
++CONFIG_AUTOBOOT_KEYED=y
++CONFIG_AUTOBOOT_PROMPT="I'm always happy when I'm protesting %d\n"
++CONFIG_AUTOBOOT_STOP_STR="foo"
++CONFIG_NET_RANDOM_ETHADDR=y
++CONFIG_PHYLIB=y
++CONFIG_NETDEVICES=y
++CONFIG_OF_LIBFDT=y
++# CONFIG_EFI_LOADER is not set
+diff --git a/configs/urwerk_defconfig b/configs/urwerk_init_defconfig
+similarity index 50%
+rename from configs/urwerk_defconfig
+rename to configs/urwerk_init_defconfig
+index b9b9ef591f..623ecee110 100644
+--- a/configs/urwerk_defconfig
++++ b/configs/urwerk_init_defconfig
+@@ -1,11 +1,11 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
+-CONFIG_CMD_TFTPPUT=y
+-CONFIG_CMD_TFTPSRV=y
+-CONFIG_CMD_DHCP=y
+-CONFIG_CMD_MII=y
+-CONFIG_CMD_PING=y
++CONFIG_SYS_EXTRA_OPTIONS="URWERK_INIT=1"
++CONFIG_BOOTDELAY=3
++CONFIG_AUTOBOOT_KEYED=y
++CONFIG_AUTOBOOT_PROMPT="Initialize me! %d\n"
++CONFIG_AUTOBOOT_STOP_STR="init"
+ CONFIG_NET_RANDOM_ETHADDR=y
+ CONFIG_PHYLIB=y
+ CONFIG_NETDEVICES=y
+diff --git a/configs/urwerk_production_defconfig b/configs/urwerk_production_defconfig
+index 48acfaa097..346ef72421 100644
+--- a/configs/urwerk_production_defconfig
++++ b/configs/urwerk_production_defconfig
+@@ -1,14 +1,7 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
+-CONFIG_SYS_EXTRA_OPTIONS="SILENT_CONSOLE=1,SILENT_U_BOOT_ONLY=1,SYS_DEVICE_NULLDEV=1"
+-CONFIG_CMD_TFTPPUT=y
+-CONFIG_CMD_TFTPSRV=y
+-CONFIG_CMD_DHCP=y
+-CONFIG_CMD_MII=y
+-CONFIG_CMD_PING=y
+-CONFIG_NET_RANDOM_ETHADDR=y
+-CONFIG_PHYLIB=y
+-CONFIG_NETDEVICES=y
++CONFIG_SYS_EXTRA_OPTIONS="URWERK_PRODUCTION=1"
+ CONFIG_OF_LIBFDT=y
+ # CONFIG_EFI_LOADER is not set
++CONFIG_BOOTDELAY=0
+diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
+index 1578d50406..915cca7366 100644
+--- a/include/configs/urwerk.h
++++ b/include/configs/urwerk.h
+@@ -3,8 +3,8 @@
+  * Author: Fabio Estevam <fabio.estevam@freescale.com>
+  *
+  * Based on m28evk.h:
+- * Copyright (C) 2011 Marek Vasut <marek.vasut@gmail.com>
+- * on behalf of DENX Software Engineering GmbH
++ * Copyright (C) 2017 Markus Valentin <valy@systemausfall.org>
++ * on behalf of Silicann Systems GmbH
+  *
+  * SPD License-Identifier:	GPL-2.0+
+  */
+@@ -29,6 +29,7 @@
+ #define CONFIG_CMD_MMC
+ #define CONFIG_CMD_BOOTZ
+ #define CONFIG_ENV_IS_IN_MMC
++#define CONFIG_DOS_PARTITION
+ 
+ 
+ /* Memory configuration */
+@@ -69,23 +70,50 @@
+ #endif
+ 
+ /* Boot Linux */
+-#define CONFIG_BOOTFILE		"uImage"
+ #define CONFIG_LOADADDR		0x42000000
+ #define CONFIG_SYS_LOAD_ADDR	CONFIG_LOADADDR
+ 
+-#define CONFIG_BOOTCOMMAND \
+-    "run memboot\0" \
++#if defined(CONFIG_URWERK_PRODUCTION)
++#define CONFIG_SILENT_CONSOLE
++#define CONFIG_SILENT_U_BOOT_ONLY
++#define CONFIG_SYS_DEVICE_NULLDEV
++#define CONFIG_DISABLE_CONSOLE
++#undef CONFIG_CMD_FUSE
++#undef CONFIG_CMD_USB
++#undef CONFIG_CMD_DATE
++#elif defined(CONFIG_URWERK_DEVELOPMENT) ||  defined(CONFIG_URWERK_INIT)
++#define CONFIG_CMD_TFTPPUT
++#define CONFIG_CMD_TFTPSRV
++#define CONFIG_CMD_DHCP
++#define CONFIG_CMD_MII
++#define CONFIG_CMD_PING
++#define CONFIG_CMD_EXT4
++#else
++#error "No valid buildmode defined define either URWERK_PRODUCTION or URWERK_DEVELOPMENT or URWERK_INIT"
++#endif
++
++#define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"fdt_addr=0x41000000\0" \
+     "zimage_addr=0x42000000\0" \
+     "initrd_addr=0x41500000\0" \
+-    "bootdelay=0\0" \
++	"initscript_addr=0x47000000\0" \
+     "baudrate=115200\0" \
+ 	"console_debug_line=ttyAMA0\0" \
+-    "console_line=ttyAPP0\0" \
+ 	"silent=1 \0" \
+ 	"memroot= root=/dev/root ro rootwait\0" \
+     "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
+-    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
++    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} - ${fdt_addr}\0" \
++	"loadinitscript=ext4load mmc 0:2 ${initscript_addr} fuses.img\0" \
++	"initscript=source ${initscript_addr}\0" \
++	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0"
++
++#ifdef CONFIG_URWERK_INIT
++#define CONFIG_BOOTCOMMAND \
++	"run sysinit"
++#else
++#define CONFIG_BOOTCOMMAND \
++    "run memboot"
++#endif
+ 
+ /* The rest of the configuration is shared */
+ #include <configs/mxs.h>
+-- 
+2.13.2
+

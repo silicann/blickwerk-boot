@@ -1,4 +1,4 @@
-From b48569c91d6bceeaccb10b975a024c1526d9882c Mon Sep 17 00:00:00 2001
+From d1551fb510e3019e99dac6595283e9ddc28f76fc Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Fri, 23 Jun 2017 18:40:25 +0200
 Subject: [PATCH 5/8] urwerk: iomux: add second duart pinmux config
@@ -31,5 +31,5 @@ index c92f754870..ef9f8af265 100644
      MX28_PAD_AUART0_RX__AUART0_RX,
      MX28_PAD_AUART0_TX__AUART0_TX,
 -- 
-2.11.0
+2.13.2
 

@@ -1,4 +1,4 @@
-From 5b370f58bdd9574464fdb9f832db0906ecbc1219 Mon Sep 17 00:00:00 2001
+From 6d97055170fbfc4713078d581c12b021c4bef5d6 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 14 Jun 2017 07:27:54 +0200
 Subject: [PATCH 3/8] rework urwerk config.h
@@ -164,5 +164,5 @@ index 0f362c9e94..295095c38a 100644
  
  /* The rest of the configuration is shared */
 -- 
-2.11.0
+2.13.2
 
