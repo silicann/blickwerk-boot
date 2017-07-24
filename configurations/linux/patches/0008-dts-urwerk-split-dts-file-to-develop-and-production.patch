@@ -1,4 +1,4 @@
-From 10262ea7838d914caface6871199f75cba749921 Mon Sep 17 00:00:00 2001
+From a69378de2cb9c869aa2d538ef30dc8eeda4a0fa8 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sun, 23 Jul 2017 22:01:34 +0200
 Subject: [PATCH 8/9] dts: urwerk: split dts file to develop and production
@@ -8,8 +8,8 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
  arch/arm/boot/dts/Makefile                    |  3 +-
  arch/arm/boot/dts/urwerk-develop.dts          | 42 +++++++++++++++++++++++++++
  arch/arm/boot/dts/urwerk-production.dts       | 41 ++++++++++++++++++++++++++
- arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} | 34 ++++++----------------
- 4 files changed, 94 insertions(+), 26 deletions(-)
+ arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} | 29 +++---------------
+ 4 files changed, 89 insertions(+), 26 deletions(-)
  create mode 100755 arch/arm/boot/dts/urwerk-develop.dts
  create mode 100755 arch/arm/boot/dts/urwerk-production.dts
  rename arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} (83%)
@@ -127,7 +127,7 @@ diff --git a/arch/arm/boot/dts/urwerk.dts b/arch/arm/boot/dts/urwerk.dtsi
 similarity index 83%
 rename from arch/arm/boot/dts/urwerk.dts
 rename to arch/arm/boot/dts/urwerk.dtsi
-index 51ca5f4d1ae3..56e899245b28 100755
+index 51ca5f4d1ae3..3902ede9909b 100755
 --- a/arch/arm/boot/dts/urwerk.dts
 +++ b/arch/arm/boot/dts/urwerk.dtsi
 @@ -9,16 +9,9 @@
@@ -181,25 +181,16 @@ index 51ca5f4d1ae3..56e899245b28 100755
  			};
  
  			// not used since Urwerk v1.5.3
-@@ -142,11 +121,16 @@
+@@ -142,7 +121,7 @@
  	ahb@80080000 {
  		usb0: usb@80080000 {
  			pinctrl-names = "default";
 -			pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
-+			pinctrl-0 = <&usb0_pins_a>;
++			pinctrl-0 = <&usb0_pins_a &reg_usb1_vbus>;
  			vbus-supply = <&reg_usb0_vbus>;
  			status = "okay";
  		};
- 
-+		usb1: usb@80090000 {
-+			vbus-supply = <&reg_usb1_vbus>;
-+			status = "okay";
-+		};
-+
- 		mac0: ethernet@800f0000 {
- 			reg = <0x800f0000 0x4000>;
- 			compatible = "fsl,imx28-fec";
-@@ -215,7 +199,7 @@
+@@ -215,7 +194,7 @@
  			regulator-min-microvolt = <5000000>;
  			regulator-max-microvolt = <5000000>;
  			gpio = <&gpio3 9 0>;
