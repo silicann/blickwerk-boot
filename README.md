@@ -10,6 +10,25 @@ Dieses README soll helfen den Bau des Kernels und des Uboots reibungslos zu ermo
 * `git submodule update`
 
 
+== Build-Varianten ==
+
+Folgende Varianten des erzeugten U-Boot & Kernel duos existieren:
+	1. `init` -- Initialisierungs U-Boot + kernel-development devicetree
+		* duart ist extern
+		* U-Boot hat 3 sekunden bootdelay und kann mit der Eingabe `init` unterbrochen werden
+		* liest von 2ter Partion der SD-Karte die datei `fuses.img` aus der Dateisystemwurzel und fuehrt sie im Nachgang aus
+		* ausgewaehlt mit `make VARIANT=init`
+	2. `development` -- Development U-Boot + Kernel-development devicetree
+		* duart ist extern
+		* U-Boot hat 3 sekunden bootdelay und kann mit der Eingabe `foo` unterbrochen werden
+		* ausgewaehlt mit `make VARIANT=development`
+	3. `production` -- production U-Boot + production devicetree
+		* duart ist intern (testpads)
+		* keinerlei U-Boot Ausgabe oder delay
+		* ausgewaehlt mit `make VARIANT=production`
+
+*Wichtig*: Damit dieses bootschema richtig funktioniert sind wir darauf angewiesen einen weitern fuse register zu setzen. Den DUART_ALTERNATIVE fuse (Bank 3, Wort 0, register 0-1). Dies erreichen wir mit dem Befehl `fuse prog 3 0 1`.
+
 == Compiler installieren ==
 === Debian ===
 * Datei /etc/apt/sources.list.d/crosstools.list mit Inhalt  "deb http://emdebian.org/tools/debian/ jessie main" erstellen
