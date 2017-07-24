@@ -1,7 +1,7 @@
-From 3abac57dba919d853e4251721baea3be9df0e107 Mon Sep 17 00:00:00 2001
+From ab268c59b0e704a6108cbb732ce35301f40998d4 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 12 Jul 2017 19:34:36 +0200
-Subject: [PATCH 8/8] mxs: urwerk: add production,init and devel defconfigs
+Subject: [PATCH] mxs: urwerk: add production,init and devel defconfigs
 
 make sure that the uart *really* stays silent aka dead for production,
 change the muxing depending on defconfig.
@@ -10,13 +10,13 @@ move the default uboot env from bootcmd definition to EXTRA_ENV_SETTINGS
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
- board/silicann/urwerk/iomux.c                      | 10 +++--
+ board/silicann/urwerk/iomux.c                      | 10 ++++--
  board/silicann/urwerk/urwerk.c                     |  5 +++
  configs/urwerk_development_defconfig               | 13 +++++++
- .../{urwerk_defconfig => urwerk_init_defconfig}    | 10 ++---
- configs/urwerk_production_defconfig                | 11 +-----
- include/configs/urwerk.h                           | 44 ++++++++++++++++++----
- 6 files changed, 68 insertions(+), 25 deletions(-)
+ .../{urwerk_defconfig => urwerk_init_defconfig}    | 10 +++---
+ configs/urwerk_production_defconfig                | 11 ++----
+ include/configs/urwerk.h                           | 42 ++++++++++++++++++----
+ 6 files changed, 67 insertions(+), 24 deletions(-)
  create mode 100644 configs/urwerk_development_defconfig
  rename configs/{urwerk_defconfig => urwerk_init_defconfig} (50%)
 
@@ -126,7 +126,7 @@ index 48acfaa097..346ef72421 100644
  # CONFIG_EFI_LOADER is not set
 +CONFIG_BOOTDELAY=0
 diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
-index 1578d50406..915cca7366 100644
+index 1578d50406..a7b153ff46 100644
 --- a/include/configs/urwerk.h
 +++ b/include/configs/urwerk.h
 @@ -3,8 +3,8 @@
@@ -189,8 +189,7 @@ index 1578d50406..915cca7366 100644
  	"silent=1 \0" \
  	"memroot= root=/dev/root ro rootwait\0" \
      "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
--    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
-+    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} - ${fdt_addr}\0" \
+     "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
 +	"loadinitscript=ext4load mmc 0:2 ${initscript_addr} fuses.img\0" \
 +	"initscript=source ${initscript_addr}\0" \
 +	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0"
