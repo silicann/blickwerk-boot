@@ -9,6 +9,7 @@ Dieses README soll helfen den Bau des Kernels und des Uboots reibungslos zu ermo
 * `git submodule init`
 * `git submodule update`
 
+
 == Compiler installieren ==
 === Debian ===
 * Datei /etc/apt/sources.list.d/crosstools.list mit Inhalt  "deb http://emdebian.org/tools/debian/ jessie main" erstellen
@@ -18,28 +19,22 @@ Dieses README soll helfen den Bau des Kernels und des Uboots reibungslos zu ermo
 * `apt install crossbuild-essential-armel`
 
 == U-Boot ==
+* `make build_uboot`
+
+=== Informationen ===
 * der Boot-Loader liest den zu bootenden Kernel aus einem Speichermedium und übergibt die Kontrolle an den Kernel
 * allgemeine Quelle des Wissens: http://www.denx-cs.de/doku/?q=m28evkrunuboot
 
-=== Erzeugen des u-boot.sd ===
-* bauen von u-boot fuer das m28evk
- * `cd u-boot`
- * `source ../configurations/u-boot/pre-build.sh`
- * `make u-boot.sb`
- * `sh ../configurations/u-boot/post-build.sh`
-
-== Linux ==
-* Linux Kernel, DeviceTree-Binaries und Kernel-Module muessen uebersetzt werden
- * `cd ../linux`
- * `source ../configurations/kernel/pre-build.sh`
- * `make`
+== Kernel ==
+* `make build_linux`
 
 === Kernel aktualisieren ===
-* um den Linux Kernel auf ein neues Patchlevel zu heben muss im Makefile die Variable LINUX_PATCH_LEVEL geandert werden und der entsprechende Patch heruntergeladen werden https://kernel.org/
-* um den Linux Kernel Release zu aendern muss im Makefile zusaetzlich die Variable LINUX_VERSION geandert werden. Und das Submodul an sich auf die entsprechende Version aktualsiert werden
+* um den Linux Kernel auf ein neues Patchlevel zu heben muss im Makefile die Variable `LINUX_PATCH_LEVEL` geandert werden und der entsprechende Patch heruntergeladen werden https://kernel.org/
+	* dieses neue patch archiv muss unter `configurations/linux/patches` liegen
+* um den Linux Kernel Release zu aendern muss im Makefile zusaetzlich die Variable `LINUX_VERSION` geandert werden. Und das Submodul an sich auf die entsprechende Version aktualsiert werden
 * nach beiden aktionen muss ein make ausgefuehrt werden
 
-=== root filesystem (optional) ===
+== rootfs ==
 * Debian: apt-get install binfmt-support qemu qemu-user-static debootstrap
 * Arch: binfmt-support qemu-user-static und debootrap ueber das ArchlinuxUserRepository installieren
 
@@ -70,6 +65,7 @@ Dieses README soll helfen den Bau des Kernels und des Uboots reibungslos zu ermo
   * `cd linux; make INSTALL_MOD_PATH=../rootfs modules_install`
  * unmounten des rootfs ordners `umount rootfs`
  * entfernen des rootfs ordners `rm -rf rootfs`
+
 == Installationmauf SD-Karte ==
 * um das system zu booten muessen alle bestandteile auf eine SD-Karte gebracht werden
 === Formatierung ===
