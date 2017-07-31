@@ -1,18 +1,18 @@
-From a69378de2cb9c869aa2d538ef30dc8eeda4a0fa8 Mon Sep 17 00:00:00 2001
+From a85d05a145ae385b7b5c7e4fa8d5f844dfb55038 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sun, 23 Jul 2017 22:01:34 +0200
-Subject: [PATCH 8/9] dts: urwerk: split dts file to develop and production
+Subject: [PATCH 1/2] dts: urwerk: split dts file to develop and production
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
  arch/arm/boot/dts/Makefile                    |  3 +-
  arch/arm/boot/dts/urwerk-develop.dts          | 42 +++++++++++++++++++++++++++
  arch/arm/boot/dts/urwerk-production.dts       | 41 ++++++++++++++++++++++++++
- arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} | 29 +++---------------
- 4 files changed, 89 insertions(+), 26 deletions(-)
+ arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} | 27 ++---------------
+ 4 files changed, 88 insertions(+), 25 deletions(-)
  create mode 100755 arch/arm/boot/dts/urwerk-develop.dts
  create mode 100755 arch/arm/boot/dts/urwerk-production.dts
- rename arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} (83%)
+ rename arch/arm/boot/dts/{urwerk.dts => urwerk.dtsi} (84%)
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
 index aa0383137d3f..162fd148e6c8 100644
@@ -124,10 +124,10 @@ index 000000000000..fb752317d49b
 +	status = "ok";
 +};
 diff --git a/arch/arm/boot/dts/urwerk.dts b/arch/arm/boot/dts/urwerk.dtsi
-similarity index 83%
+similarity index 84%
 rename from arch/arm/boot/dts/urwerk.dts
 rename to arch/arm/boot/dts/urwerk.dtsi
-index 51ca5f4d1ae3..3902ede9909b 100755
+index 51ca5f4d1ae3..4f26786c9aca 100755
 --- a/arch/arm/boot/dts/urwerk.dts
 +++ b/arch/arm/boot/dts/urwerk.dtsi
 @@ -9,16 +9,9 @@
@@ -181,15 +181,6 @@ index 51ca5f4d1ae3..3902ede9909b 100755
  			};
  
  			// not used since Urwerk v1.5.3
-@@ -142,7 +121,7 @@
- 	ahb@80080000 {
- 		usb0: usb@80080000 {
- 			pinctrl-names = "default";
--			pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
-+			pinctrl-0 = <&usb0_pins_a &reg_usb1_vbus>;
- 			vbus-supply = <&reg_usb0_vbus>;
- 			status = "okay";
- 		};
 @@ -215,7 +194,7 @@
  			regulator-min-microvolt = <5000000>;
  			regulator-max-microvolt = <5000000>;
@@ -200,5 +191,5 @@ index 51ca5f4d1ae3..3902ede9909b 100755
  
  		reg_usb1_vbus: regulator@4 {
 -- 
-2.13.2
+2.13.3
 
