@@ -57,8 +57,8 @@ index 62f064a758..22f9d1042d 100644
 +
 +	/* if gpio 2:20 value is 0 configure gpio 1:7 as output and set
 +	* it low
-+	* */
-+	if(!gpio_get_value(RESET_ADSP_DETECT_GPIO)){
++	* TODO: enable condition check when homer is fixed (urwerk/homer#11) */
++	if(true || !gpio_get_value(RESET_ADSP_DETECT_GPIO)){
 +	   /* the gpio gets set to high again via uboot cmdline */
 +	   gpio_direction_output(RESET_ADSP_GPIO, 0);
 +#if defined(CONFIG_URWERK_DEVELOPMENT) ||  defined(CONFIG_URWERK_INIT)
