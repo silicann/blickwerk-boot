@@ -1,4 +1,4 @@
-From 95b940ae0a96dc1d63ecc5820fc91b9b4adffec9 Mon Sep 17 00:00:00 2001
+From ecf6e637831eaaad2c7e2c27d16310fd46e866e9 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 2 Aug 2017 18:44:12 +0200
 Subject: [PATCH] urwerk: reset the adsp on bootup if needed via gpio
@@ -35,7 +35,7 @@ index 3d9fd527cf..2b6e45b32a 100644
  
  #define HW_DRAM_CTL29	(0x74 >> 2)
 diff --git a/board/silicann/urwerk/urwerk.c b/board/silicann/urwerk/urwerk.c
-index 62f064a758..af4e2ac949 100644
+index 62f064a758..22f9d1042d 100644
 --- a/board/silicann/urwerk/urwerk.c
 +++ b/board/silicann/urwerk/urwerk.c
 @@ -72,6 +72,32 @@ int board_init(void)
@@ -52,10 +52,10 @@ index 62f064a758..af4e2ac949 100644
 +	* 6) fertig
 +	*
 +	* */
-+	/* configure gpio 84 as input */
++	/* configure gpio 2:20 as input */
 +	gpio_direction_input(RESET_ADSP_DETECT_GPIO);
 +
-+	/* if gpio 84 read value is 0 configure gpio 39 as output and set
++	/* if gpio 2:20 value is 0 configure gpio 1:7 as output and set
 +	* it low
 +	* */
 +	if(!gpio_get_value(RESET_ADSP_DETECT_GPIO)){
@@ -85,7 +85,7 @@ index c25b4c1c2e..343d50d007 100644
  
  	return 0;
 diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
-index a7b153ff46..700e675003 100644
+index a7b153ff46..f7260ecc43 100644
 --- a/include/configs/urwerk.h
 +++ b/include/configs/urwerk.h
 @@ -27,6 +27,7 @@
@@ -101,8 +101,8 @@ index a7b153ff46..700e675003 100644
  #endif
  
 +#define RESET_ADSP_DELAY_MICROSECONDS 	(100)
-+#define RESET_ADSP_GPIO 				(MX28_PAD_LCD_D07__GPIO_1_7)
-+#define RESET_ADSP_DETECT_GPIO			(MX28_PAD_SSP2_SS1__GPIO_2_20)
++#define RESET_ADSP_GPIO 				(57) //bank 1 gpio 7 aka gpio 39
++#define RESET_ADSP_DETECT_GPIO			(162) //bank 2 gpio 20 aka 84
 +
  #define CONFIG_EXTRA_ENV_SETTINGS \
  	"fdt_addr=0x41000000\0" \
@@ -119,7 +119,7 @@ index a7b153ff46..700e675003 100644
  	"initscript=source ${initscript_addr}\0" \
 -	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0"
 +	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0" \
-+	"adsp_release_reset=echo releasing adsp reset; gpio set 39; \0"
++	"adsp_release_reset=echo releasing adsp reset; gpio set 57; \0"
  
  #ifdef CONFIG_URWERK_INIT
  #define CONFIG_BOOTCOMMAND \
