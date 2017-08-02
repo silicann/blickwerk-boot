@@ -1,0 +1,128 @@
+From 95b940ae0a96dc1d63ecc5820fc91b9b4adffec9 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Wed, 2 Aug 2017 18:44:12 +0200
+Subject: [PATCH] urwerk: reset the adsp on bootup if needed via gpio
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ board/silicann/urwerk/iomux.c  |  5 +++++
+ board/silicann/urwerk/urwerk.c | 26 ++++++++++++++++++++++++++
+ drivers/gpio/mxs_gpio.c        |  2 +-
+ include/configs/urwerk.h       | 12 ++++++++++--
+ 4 files changed, 42 insertions(+), 3 deletions(-)
+
+diff --git a/board/silicann/urwerk/iomux.c b/board/silicann/urwerk/iomux.c
+index 3d9fd527cf..2b6e45b32a 100644
+--- a/board/silicann/urwerk/iomux.c
++++ b/board/silicann/urwerk/iomux.c
+@@ -174,6 +174,7 @@ const iomux_cfg_t iomux_setup[] = {
+ 	MX28_PAD_SSP2_MISO__SSP2_D0 | MUX_CONFIG_SSP2,
+ 	MX28_PAD_SSP2_SS0__SSP2_D3 | MUX_CONFIG_SSP2,
+     MX28_PAD_SSP0_DATA7__GPIO_2_7 | (MXS_PAD_3V3 | MXS_PAD_4MA | MXS_PAD_NOPULL),
++	//also used for reset detection
+     MX28_PAD_SSP2_SS1__GPIO_2_20  | (MXS_PAD_3V3 | MXS_PAD_4MA | MXS_PAD_NOPULL),
+ 
+ 
+@@ -181,6 +182,10 @@ const iomux_cfg_t iomux_setup[] = {
+ 	MX28_PAD_I2C0_SCL__I2C0_SCL,
+ 	MX28_PAD_I2C0_SDA__I2C0_SDA,
+ 
++
++	/* GPIOS adsp reset gpio */
++	MX28_PAD_LCD_D07__GPIO_1_7 | (MXS_PAD_3V3 | MXS_PAD_4MA | MXS_PAD_NOPULL),
++
+ };
+ 
+ #define HW_DRAM_CTL29	(0x74 >> 2)
+diff --git a/board/silicann/urwerk/urwerk.c b/board/silicann/urwerk/urwerk.c
+index 62f064a758..af4e2ac949 100644
+--- a/board/silicann/urwerk/urwerk.c
++++ b/board/silicann/urwerk/urwerk.c
+@@ -72,6 +72,32 @@ int board_init(void)
+ 	/* Adress of boot parameters */
+ 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
+ 
++	/* Dieser Code ist ein Fix für Issue #22 (Instabiler
++	* ADSP-Reset), er setzt folgendes Schema um
++	* 1) Prüfung ob input-Ping #84 high ist
++	* 2) falls #84 high -> weiter mit Punkt (6)
++	* 3) Pin #39 (Ausgang) auf low ziehen
++	* 4) eine Sekunde warten
++	* 5) Pin #39 auf high ziehen
++	* 6) fertig
++	*
++	* */
++	/* configure gpio 84 as input */
++	gpio_direction_input(RESET_ADSP_DETECT_GPIO);
++
++	/* if gpio 84 read value is 0 configure gpio 39 as output and set
++	* it low
++	* */
++	if(!gpio_get_value(RESET_ADSP_DETECT_GPIO)){
++	   /* the gpio gets set to high again via uboot cmdline */
++	   gpio_direction_output(RESET_ADSP_GPIO, 0);
++#if defined(CONFIG_URWERK_DEVELOPMENT) ||  defined(CONFIG_URWERK_INIT)
++	   puts("ADSP: Reset GPIO got set low \n");
++#endif
++	   /* scale the udelay value to reach the reset threshold */
++	   udelay(RESET_ADSP_DELAY_MICROSECONDS);
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpio/mxs_gpio.c b/drivers/gpio/mxs_gpio.c
+index c25b4c1c2e..343d50d007 100644
+--- a/drivers/gpio/mxs_gpio.c
++++ b/drivers/gpio/mxs_gpio.c
+@@ -103,7 +103,7 @@ int gpio_direction_output(unsigned gpio, int value)
+ 
+ int gpio_request(unsigned gpio, const char *label)
+ {
+-	if (PAD_BANK(gpio) >= PINCTRL_BANKS)
++	if (PAD_BANK(gpio) >= PINCTRL_BANKS && gpio!=39)
+ 		return -1;
+ 
+ 	return 0;
+diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
+index a7b153ff46..700e675003 100644
+--- a/include/configs/urwerk.h
++++ b/include/configs/urwerk.h
+@@ -27,6 +27,7 @@
+ #define CONFIG_CMD_DATE
+ #define CONFIG_CMD_FUSE
+ #define CONFIG_CMD_MMC
++#define CONFIG_CMD_GPIO
+ #define CONFIG_CMD_BOOTZ
+ #define CONFIG_ENV_IS_IN_MMC
+ #define CONFIG_DOS_PARTITION
+@@ -92,6 +93,10 @@
+ #error "No valid buildmode defined define either URWERK_PRODUCTION or URWERK_DEVELOPMENT or URWERK_INIT"
+ #endif
+ 
++#define RESET_ADSP_DELAY_MICROSECONDS 	(100)
++#define RESET_ADSP_GPIO 				(MX28_PAD_LCD_D07__GPIO_1_7)
++#define RESET_ADSP_DETECT_GPIO			(MX28_PAD_SSP2_SS1__GPIO_2_20)
++
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"fdt_addr=0x41000000\0" \
+     "zimage_addr=0x42000000\0" \
+@@ -102,10 +107,13 @@
+ 	"silent=1 \0" \
+ 	"memroot= root=/dev/root ro rootwait\0" \
+     "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
+-    "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
++    "memboot=echo Booting from memory; run memargs; " \
++		"run adsp_release_reset; " \
++		"bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
+ 	"loadinitscript=ext4load mmc 0:2 ${initscript_addr} fuses.img\0" \
+ 	"initscript=source ${initscript_addr}\0" \
+-	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0"
++	"sysinit=echo Running the init script from sdcard; run loadinitscript; run initscript; run memboot\0" \
++	"adsp_release_reset=echo releasing adsp reset; gpio set 39; \0"
+ 
+ #ifdef CONFIG_URWERK_INIT
+ #define CONFIG_BOOTCOMMAND \
+-- 
+2.13.3
+
