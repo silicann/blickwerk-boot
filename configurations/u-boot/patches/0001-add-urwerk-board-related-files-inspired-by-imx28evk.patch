@@ -57,7 +57,7 @@ index 0000000000..798c21e3ac
 +++ b/board/silicann/urwerk/Makefile
 @@ -0,0 +1,12 @@
 +#
-+# (C) Copyright 2017 
++# (C) Copyright 2017
 +# Markus Valentin Silicann Systems GmbH valentin@silicann.com
 +#
 +# SPDX-License-Identifier:	GPL-2.0+
