@@ -5,10 +5,26 @@ Maintainer: Konrad Mohrfeldt <mohrfeldt@silicann.com>
 Build-Depends: debhelper (>= 9), dh-exec
 Standards-Version: 3.9.8
 
-Package: linux-image-wurzelwerk-imx28
+Package: linux-image-wurzelwerk-imx28-production
 Architecture: all
 Depends: ${misc:Depends}
 Description: Wurzelwerk Kernel for NXP i.MX28 Processors
+  This minimal kernel provides no debugging features. It is suitable
+  for production deployments.
+
+Package: linux-image-wurzelwerk-imx28-development
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wurzelwerk Kernel for NXP i.MX28 Processors
+  This kernel provides debugging features. It is suitable for
+  development deployments.
+
+Package: linux-image-wurzelwerk-imx28-init
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wurzelwerk Kernel for NXP i.MX28 Processors
+  This kernel contains a minimal uboot environment for initializing
+  a new device (writing fuses, ...).
 
 Package: imx28-mxsboot
 Architecture: any
