@@ -132,6 +132,8 @@ initrd_header:
 
 .PHONY: clean
 clean: clean_uboot clean_linux
+	# TODO: remove workaround after upgrading to makefile v0.2.6
+	$(RM) -r "$(dir $(DIR_MAKEFILET))"
 
 
 .PHONY: clean_linux
