@@ -1,10 +1,9 @@
 #!/usr/bin/make -f
 
 %:
-	# 'imx28-mxsboot' is taken from the production build
-	VARIANT=production DESTDIR=debian/linux-image-wurzelwerk-imx28-production \
-		dh $@ --package=linux-image-wurzelwerk-imx28-production
-	VARIANT=development DESTDIR=debian/linux-image-wurzelwerk-imx28-development \
-		dh $@ --package=linux-image-wurzelwerk-imx28-development
-	VARIANT=init DESTDIR=debian/linux-image-wurzelwerk-imx28-init \
-		dh $@ --package=linux-image-wurzelwerk-imx28-init
+	# 'imx28-mxsboot' is copied from the production build (see debian/imx28-mxsboot.install)
+	for variant in production development init; do \
+		VARIANT=$$variant dh $@ \
+			--package=linux-image-wurzelwerk-imx28-$$variant \
+			--destdir=debian/linux-image-wurzelwerk-imx28-$$variant; \
+	done
