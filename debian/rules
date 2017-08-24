@@ -5,5 +5,5 @@
 	for variant in production development init; do \
 		VARIANT=$$variant dh $@ \
 			--package=linux-image-wurzelwerk-imx28-$$variant \
-			--destdir=debian/linux-image-wurzelwerk-imx28-$$variant; \
+			--tmpdir=debian/linux-image-wurzelwerk-imx28-$$variant; \
 	done
