@@ -1,9 +1,18 @@
 #!/usr/bin/make -f
 
+PACKAGE_VARIANTS = production development init
+
+
 %:
 	# 'imx28-mxsboot' is copied from the production build (see debian/imx28-mxsboot.install)
-	for variant in production development init; do \
+	for variant in $(PACKAGE_VARIANTS); do \
 		VARIANT=$$variant dh $@ \
 			--package=linux-image-wurzelwerk-imx28-$$variant \
-			--tmpdir=debian/linux-image-wurzelwerk-imx28-$$variant; \
+	done
+
+override_dh_auto_install:
+	for variant in $(PACKAGE_VARIANTS); do \
+		VARIANT=$$variant dh_auto_install \
+			--package=linux-image-wurzelwerk-imx28-$$variant \
+			--destdir=debian/linux-image-wurzelwerk-imx28-$$variant; \
 	done
