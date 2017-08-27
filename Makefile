@@ -132,9 +132,6 @@ initrd_header:
 
 .PHONY: clean
 clean: clean_uboot clean_linux
-	# TODO: remove workaround after upgrading to makefile v0.2.6
-	#       currently: accept failure - maybe DIR_MAKEFILET is owned by root (system-wide)
-	$(RM) -r "$(dir $(DIR_MAKEFILET))" || true
 
 
 .PHONY: clean_linux
