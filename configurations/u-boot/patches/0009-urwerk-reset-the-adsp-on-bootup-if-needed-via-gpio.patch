@@ -37,34 +37,35 @@ diff --git a/board/silicann/urwerk/urwerk.c b/board/silicann/urwerk/urwerk.c
 index 62f064a758..9ba2221212 100644
 --- a/board/silicann/urwerk/urwerk.c
 +++ b/board/silicann/urwerk/urwerk.c
-@@ -72,6 +72,32 @@ int board_init(void)
+@@ -72,6 +72,33 @@ int board_init(void)
  	/* Adress of boot parameters */
  	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
  
-+	/* Dieser Code ist ein Fix für Issue #22 (Instabiler
-+	* ADSP-Reset), er setzt folgendes Schema um
-+	* 1) Prüfung ob input-Ping #84 high ist
-+	* 2) falls #84 high -> weiter mit Punkt (6)
-+	* 3) Pin #39 (Ausgang) auf low ziehen
-+	* 4) eine Sekunde warten
-+	* 5) Pin #39 auf high ziehen
-+	* 6) fertig
-+	*
-+	* */
-+	/* configure gpio 2:20 as input */
-+	gpio_direction_input(RESET_ADSP_DETECT_GPIO);
++	/* Dieser Code war als Fix für Issue #22 (Instabiler ADSP-Reset) geplant.
++	 * Er setzt folgenden Ablauf um:
++	 *  1) Prüfung ob input-Ping #84 high ist
++	 *  2) falls #84 high -> weiter mit Punkt (6)
++	 *  3) Pin #39 (Ausgang) auf low ziehen
++	 *  4) eine Sekunde warten
++	 *  5) Pin #39 auf high ziehen
++	 *  6) fertig
++	 *
++	 * STATUS: nicht verwendet, da wir Issue #22 auf Hardware-Ebene behoben haben.
++	 */
++	if (false) {
++	   /* configure gpio 2:20 as input */
++	   gpio_direction_input(RESET_ADSP_DETECT_GPIO);
 +
-+	/* if gpio 2:20 value is 0 configure gpio 1:7 as output and set
-+	* it low
-+	* TODO: enable condition check when homer is fixed (urwerk/homer#11) */
-+	if(true || !gpio_get_value(RESET_ADSP_DETECT_GPIO)){
-+	   /* the gpio gets set to high again via uboot cmdline */
-+	   gpio_direction_output(RESET_ADSP_GPIO, 0);
++	   /* if gpio 2:20 value is 0 configure gpio 1:7 as output and pull it low */
++	   if (!gpio_get_value(RESET_ADSP_DETECT_GPIO)) {
++	      /* the gpio gets set to high again via uboot cmdline */
++	      gpio_direction_output(RESET_ADSP_GPIO, 0);
 +#if defined(CONFIG_URWERK_DEVELOPMENT) ||  defined(CONFIG_URWERK_INIT)
-+	   puts("ADSP: Reset GPIO got set low \n");
++	      puts("ADSP: Reset GPIO got set low \n");
 +#endif
-+	   /* scale the udelay value to reach the reset threshold */
-+	   udelay(RESET_ADSP_DELAY_MICROSECONDS);
++	      /* scale the udelay value to reach the reset threshold */
++	      udelay(RESET_ADSP_DELAY_MICROSECONDS);
++	   }
 +	}
 +
  	return 0;
