@@ -119,9 +119,9 @@ install: build_uboot build_linux
 	cp "$(DIR_BUILD_UBOOT)/u-boot-nodtb.bin" "$(DESTDIR)/boot/u-boot.bin"
 	cp "$(DIR_BUILD_UBOOT)/spl/u-boot-spl-nodtb.bin" "$(DESTDIR)/boot/u-boot-spl.bin"
 	# copy linux related files (devicetree, kernel)
-	cp "$(DIR_BUILD_LINUX)/arch/arm/boot/Image" "$(DESTDIR)/boot/"
+	cp "$(DIR_BUILD_LINUX)/arch/arm/boot/zImage" "$(DESTDIR)/boot/"
 	cp "$(UBOOT_DTB)" "$(DESTDIR)/boot/urwerk.dtb"
-	echo "$(LINUX_NAME)" >"$(DESTDIR)/boot/Image.version"
+	echo "$(LINUX_NAME)" >"$(DESTDIR)/boot/zImage.version"
 
 
 .PHONY: initrd_header

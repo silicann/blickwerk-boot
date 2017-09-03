@@ -16,9 +16,11 @@ new file mode 100644
 index 000000000000..154944b83984
 --- /dev/null
 +++ b/arch/arm/configs/urwerk_defconfig
-@@ -0,0 +1,272 @@
+@@ -0,0 +1,274 @@
 +CONFIG_COMPILE_TEST=y
 +CONFIG_DEFAULT_HOSTNAME="urwerk"
++CONFIG_KERNEL_GZIP=y
++CONFIG_KERNEL_LZO=y
 +CONFIG_SWAP=y
 +CONFIG_SYSVIPC=y
 +CONFIG_POSIX_MQUEUE=y
@@ -299,9 +301,11 @@ new file mode 100644
 index 000000000000..906f9b703860
 --- /dev/null
 +++ b/arch/arm/configs/urwerk_earlyprintk_defconfig
-@@ -0,0 +1,279 @@
+@@ -0,0 +1,281 @@
 +CONFIG_COMPILE_TEST=y
 +CONFIG_DEFAULT_HOSTNAME="urwerk"
++CONFIG_KERNEL_GZIP=y
++CONFIG_KERNEL_LZO=y
 +CONFIG_SWAP=y
 +CONFIG_SYSVIPC=y
 +CONFIG_POSIX_MQUEUE=y
