@@ -96,6 +96,12 @@ $(STAMP_LINUX_PATCH):
 	touch "$@"
 
 
+.PHONY: menuconfig_linux
+menuconfig_linux:
+	$(MAKE) $(LINUX_BUILD_FLAGS) urwerk_defconfig
+	$(MAKE) $(LINUX_BUILD_FLAGS) menuconfig
+
+
 .PHONY: build_linux
 build_linux: $(STAMP_LINUX_BUILT)
 
