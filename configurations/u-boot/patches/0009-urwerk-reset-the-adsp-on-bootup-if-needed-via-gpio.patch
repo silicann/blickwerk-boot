@@ -50,9 +50,9 @@ index 62f064a758..9ba2221212 100644
 +	 *  5) Pin #39 auf high ziehen
 +	 *  6) fertig
 +	 *
-+	 * STATUS: nicht verwendet, da wir Issue #22 auf Hardware-Ebene behoben haben.
++	 * STATUS: verwendet, da urwerk/hardware#1 manchmal zum Nicht-Booten des ADSP fuehrt
 +	 */
-+	if (false) {
++	if (true) {
 +	   /* configure gpio 2:20 as input */
 +	   gpio_direction_input(RESET_ADSP_DETECT_GPIO);
 +
