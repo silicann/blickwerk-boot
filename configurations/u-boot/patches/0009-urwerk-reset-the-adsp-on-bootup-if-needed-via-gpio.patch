@@ -87,7 +87,7 @@ index a7b153ff46..48b398b9a0 100644
  #error "No valid buildmode defined define either URWERK_PRODUCTION or URWERK_DEVELOPMENT or URWERK_INIT"
  #endif
  
-+#define RESET_ADSP_DELAY_MICROSECONDS 	(1500000)
++#define RESET_ADSP_DELAY_MICROSECONDS 	(500000)
 +#define RESET_ADSP_GPIO 				(57) //bank 1 gpio 7 aka gpio 39
 +#define RESET_ADSP_DETECT_GPIO			(162) //bank 2 gpio 20 aka 84
 +
