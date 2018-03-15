@@ -1,3 +1,9 @@
+linux-image-wurzelwerk-imx28 (1.2.6-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Lars Kruse <kruse@silicann.com>  Fri, 16 Mar 2018 00:11:57 +0100
+
 linux-image-wurzelwerk-imx28 (1.2.5-1) unstable; urgency=medium
 
   * New upstream release
