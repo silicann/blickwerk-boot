@@ -1,0 +1,52 @@
+From d324d533273f0b34442feae8735716c530b54e54 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Tue, 12 Jun 2018 19:21:39 +0200
+Subject: [PATCH 10/10] mxs: eth: if fuses read value is zero set one fixed mac
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/cpu/arm926ejs/mxs/mxs.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/cpu/arm926ejs/mxs/mxs.c b/arch/arm/cpu/arm926ejs/mxs/mxs.c
+index 7e7776b15e..987dd8b1f2 100644
+--- a/arch/arm/cpu/arm926ejs/mxs/mxs.c
++++ b/arch/arm/cpu/arm926ejs/mxs/mxs.c
+@@ -249,6 +249,7 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
+ 	struct mxs_ocotp_regs *ocotp_regs =
+ 		(struct mxs_ocotp_regs *)MXS_OCOTP_BASE;
+ 	uint32_t data;
++	bool mac_zero = false;
+ 
+ 	memset(mac, 0, 6);
+ 
+@@ -266,14 +267,25 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
+ 		mac[1] = (data >> 16) & 0xff;
+ 		mac[2] = (data >> 8) & 0xff;
+ 		mac[3] = data & 0xff;
++	} else {
++		mac_zero = true;
+ 	}
+ 
+ 	data = readl(&ocotp_regs->hw_ocotp_cust1);
+ 	if(data!=0){
+ 		mac[4] = (data >> 8) & 0xff;
+ 		mac[5] = data & 0xff;
++	}else if(mac_zero && data == 0){
++		mac[0] = 0x96;
++		mac[1] = 0xac;
++		mac[2] = 0xab;
++		mac[3] = 0x5a;
++
++		mac[4] = 0x48;
++		mac[5] = 0x33;
++	}else{
++		printf("MXS FEC: OCOTP does not contain valid MAC\n");
+ 	}
+-
+ 	//we dont call this as we maybe will have multiple mac address ranges
+ 	//mx28_adjust_mac(dev_id, mac);
+ }
+-- 
+2.17.1
+
