@@ -1,0 +1,22 @@
+#siehe http://www.denx.de/wiki/view/DULG/UBootScripts
+setenv loadaddr 0x42000000
+echo ===== U-Boot settings =====
+setenv u-boot /tftpboot/TQM860L/u-boot.bin
+setenv u-boot_addr 40000000
+setenv load_u-boot 'tftp ${loadaddr} ${u-boot}'
+setenv install_u-boot 'protect off ${u-boot_addr} +${filesize};era ${u-boot_addr} +${filesize};cp.b ${loadaddr} ${u-boot_addr} ${filesize};saveenv'
+setenv update_u-boot run load_u-boot install_u-boot
+echo ===== Linux Kernel settings =====
+setenv bootfile /tftpboot/TQM860L/uImage
+setenv kernel_addr 40040000
+setenv load_kernel 'tftp ${loadaddr} ${bootfile};'
+setenv install_kernel 'era ${kernel_addr} +${filesize};cp.b ${loadaddr} ${kernel_addr} ${filesize}'
+setenv update_kernel run load_kernel install_kernel
+echo ===== Ramdisk settings =====
+setenv ramdisk /tftpboot/TQM860L/uRamdisk
+setenv ramdisk_addr 40100000
+setenv load_ramdisk 'tftp ${loadaddr} ${ramdisk};'
+setenv install_ramdisk 'era ${ramdisk_addr} +${filesize};cp.b ${loadaddr} ${ramdisk_addr} ${filesize}'
+setenv update_ramdisk run load_ramdisk install_ramdisk
+echo ===== Save new definitions =====
+saveenv

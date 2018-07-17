@@ -1,0 +1,43 @@
+From 498ad28384dc6f208b8fbe2238ac725656f5268a Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Tue, 14 Mar 2017 16:02:20 +0100
+Subject: [PATCH 3/4] arm: imx28: clk: Add clk bypasses for ssp2/3
+
+This bypasses are necessary to make the spi interfaces stable. The
+original clocks have a problem in hardware and are not freely
+confiurable.
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ drivers/clk/mxs/clk-imx28.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clk/mxs/clk-imx28.c b/drivers/clk/mxs/clk-imx28.c
+index 6b572b759f9a..5de42dd2c6c8 100644
+--- a/drivers/clk/mxs/clk-imx28.c
++++ b/drivers/clk/mxs/clk-imx28.c
+@@ -53,6 +53,8 @@ static void __iomem *clkctrl;
+ #define BP_ENET_SLEEP		31
+ #define BP_CLKSEQ_BYPASS_SAIF0	0
+ #define BP_CLKSEQ_BYPASS_SSP0	3
++#define BP_CLKSEQ_BYPASS_SSP2	5
++#define BP_CLKSEQ_BYPASS_SSP3	6
+ #define BP_FRAC0_IO1FRAC	16
+ #define BP_FRAC0_IO0FRAC	24
+ 
+@@ -113,7 +115,11 @@ static void __init clk_misc_init(void)
+ 	 * Source ssp clock from ref_io than ref_xtal,
+ 	 * as ref_xtal only provides 24 MHz as maximum.
+ 	 */
+-	writel_relaxed(0xf << BP_CLKSEQ_BYPASS_SSP0, CLKSEQ + CLR);
++	writel_relaxed(0x3 << BP_CLKSEQ_BYPASS_SSP0, CLKSEQ + CLR);
++
++	/* set both spidev interfaces to use the ref_xtal */
++	writel_relaxed(0x1 << BP_CLKSEQ_BYPASS_SSP2, CLKSEQ + SET);
++	writel_relaxed(0x1 << BP_CLKSEQ_BYPASS_SSP3, CLKSEQ + SET);
+ 
+ 	/*
+ 	 * 480 MHz seems too high to be ssp clock source directly,
+-- 
+2.13.1
+

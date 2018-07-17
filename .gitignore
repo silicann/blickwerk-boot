@@ -1,0 +1,6 @@
+rootfs/*
+ct-ng/*
+rootfs.tar
+root/
+build/*
+dist/*

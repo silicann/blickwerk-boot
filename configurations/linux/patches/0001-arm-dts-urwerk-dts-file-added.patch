@@ -1,0 +1,354 @@
+From 7f508d345d3c9f1a0b62dc20fa6af6c2ab17f432 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Tue, 14 Mar 2017 15:56:53 +0100
+Subject: [PATCH 1/4] arm: dts: urwerk dts file added
+
+Remove two muxed pins from imx28.dtsi file and add urwerk.dts file to
+sources.
+The urwerk.dts file gets compiled if IMX28 is selected as target
+platform
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/boot/dts/Makefile   |   3 +-
+ arch/arm/boot/dts/imx28.dtsi |  30 +++++-
+ arch/arm/boot/dts/urwerk.dts | 252 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 282 insertions(+), 3 deletions(-)
+ create mode 100755 arch/arm/boot/dts/urwerk.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 30bbc3746130..aa0383137d3f 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -381,7 +381,8 @@ dtb-$(CONFIG_ARCH_MXS) += \
+ 	imx28-m28cu3.dtb \
+ 	imx28-m28evk.dtb \
+ 	imx28-sps1.dtb \
+-	imx28-tx28.dtb
++	imx28-tx28.dtb \
++	urwerk.dtb
+ dtb-$(CONFIG_ARCH_NOMADIK) += \
+ 	ste-nomadik-s8815.dtb \
+ 	ste-nomadik-nhk15.dtb
+diff --git a/arch/arm/boot/dts/imx28.dtsi b/arch/arm/boot/dts/imx28.dtsi
+index c5b57d4adade..b54dd03f3481 100644
+--- a/arch/arm/boot/dts/imx28.dtsi
++++ b/arch/arm/boot/dts/imx28.dtsi
+@@ -447,7 +447,6 @@
+ 						MX28_PAD_SSP0_DATA3__SSP0_D3
+ 						MX28_PAD_SSP0_DATA4__SSP0_D4
+ 						MX28_PAD_SSP0_DATA5__SSP0_D5
+-						MX28_PAD_SSP0_DATA6__SSP0_D6
+ 						MX28_PAD_SSP0_DATA7__SSP0_D7
+ 						MX28_PAD_SSP0_CMD__SSP0_CMD
+ 						MX28_PAD_SSP0_DETECT__SSP0_CARD_DETECT
+@@ -497,13 +496,27 @@
+ 						MX28_PAD_GPMI_D02__SSP1_D2
+ 						MX28_PAD_GPMI_D03__SSP1_D3
+ 						MX28_PAD_GPMI_RDY1__SSP1_CMD
+-						MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT
+ 						MX28_PAD_GPMI_WRN__SSP1_SCK
+ 					>;
+ 					fsl,drive-strength = <MXS_DRIVE_8mA>;
+ 					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+ 					fsl,pull-up = <MXS_PULL_ENABLE>;
+ 				};
++				
++				mmc1_4bit_pins_b: mmc1-4bit@1 {
++					  reg = <1>;
++					  fsl,pinmux-ids = <
++						  MX28_PAD_GPMI_D00__SSP1_D0
++						  MX28_PAD_GPMI_D01__SSP1_D1
++						  MX28_PAD_GPMI_D02__SSP1_D2
++						  MX28_PAD_GPMI_D03__SSP1_D3
++						  MX28_PAD_GPMI_RDY1__SSP1_CMD
++						  MX28_PAD_GPMI_WRN__SSP1_SCK
++						  >;
++					  fsl,drive-strength = <MXS_DRIVE_8mA>;
++					  fsl,voltage = <MXS_VOLTAGE_HIGH>;
++					  fsl,pull-up = <MXS_PULL_ENABLE>;
++				};
+ 
+ 				mmc1_cd_cfg: mmc1-cd-cfg {
+ 					fsl,pinmux-ids = <
+@@ -842,6 +855,19 @@
+ 					fsl,pull-up = <MXS_PULL_ENABLE>;
+ 				};
+ 
++				spi3_pins_c: spi3@2 {
++					reg = <2>;
++					fsl,pinmux-ids = <
++						 MX28_PAD_GPMI_RDN__SSP3_SCK
++						 MX28_PAD_GPMI_RESETN__SSP3_CMD
++						 MX28_PAD_GPMI_CE0N__SSP3_D0 
++						 MX28_PAD_GPMI_CE1N__SSP3_D3 
++						 >;
++					fsl,drive-strength = <MXS_DRIVE_8mA>;
++					fsl,voltage = <MXS_VOLTAGE_HIGH>;
++					fsl,pull-up = <MXS_PULL_DISABLE>;
++				};
++
+ 				usb0_pins_a: usb0@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+diff --git a/arch/arm/boot/dts/urwerk.dts b/arch/arm/boot/dts/urwerk.dts
+new file mode 100755
+index 000000000000..68037ce20f0d
+--- /dev/null
++++ b/arch/arm/boot/dts/urwerk.dts
+@@ -0,0 +1,252 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++/dts-v1/;
++#include "imx28.dtsi"
++
++/ {
++	model = "Silicann Urwerk-platform";
++	compatible = "silicann,imx28-urwerk", "fsl,imx28";
++
++	memory {
++		reg = <0x40000000 0x08000000>;
++	};
++	apb@80000000 {
++		apbh@80000000 {
++			ssp0: ssp@80010000 {
++				compatible = "fsl,imx28-mmc";
++				pinctrl-names = "default";
++				pinctrl-0 = <&mmc0_4bit_pins_a
++							&mmc0_cd_cfg
++							&mmc0_sck_cfg>;
++				bus-width = <4>;
++				vmmc-supply = <&reg_vddio_sd0>;
++				status = "okay";
++			};
++
++			ssp1: ssp@80012000 {
++				compatible = "fsl,imx28-mmc";
++				pinctrl-names = "default";
++				pinctrl-0 = <&mmc1_4bit_pins_b
++						 &mmc1_sck_cfg>;
++				bus-width = <4>;
++				vmmc-supply = <&reg_vddio_sd0>;
++				status = "okay";
++			};
++
++			ssp2: ssp@80014000 {
++				compatible = "fsl,imx28-spi";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				num-cs = <1>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&spi2_pins_a>;
++				status = "okay";
++				spidev@0 {
++					compatible = "spidev";
++					spi-max-frequency = <12000000>;
++					reg = <0>;
++				};
++			};
++
++			ssp3: ssp@80016000 {
++				num-cs = <1>;
++				#size-cells = <0>;
++				compatible = "fsl,imx28-spi";
++				pinctrl-names = "default";
++				pinctrl-0 = <&spi3_pins_c>;
++				status = "okay";
++				spidev@0 {
++					compatible = "spidev";
++					spi-max-frequency = <12000000>;
++					reg = <0>;
++				};
++			};
++		
++			ocotp: ocotp@8002c000 {
++				status = "okay";
++			};
++		};
++	
++		apbx@80040000 {
++			i2c0: i2c@80058000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&i2c0_pins_a>;
++				status = "okay";
++
++				eeprom_analog: eeprom@54 {
++						compatible = "onsemi,24c02";
++						reg = <0x54>;
++						pagesize = <16>;
++				};
++				eeprom_led: eeprom@51 {
++						compatible = "onsemi,24c02";
++						reg = <0x51>;
++						pagesize = <16>;
++				};
++				eeprom_processor: eeprom@56 {
++						compatible = "onsemi,24c02";
++						reg = <0x56>;
++						pagesize = <16>;
++				};
++				eeprom_dcdc: eeprom@57 {
++						compatible = "onsemi,24c02";
++						reg = <0x57>;
++						pagesize = <16>;
++				};
++				temp_sensor_analog: eeprom@4c {
++						compatible = "lm75";
++						reg = <0x4c>;
++				};
++				temp_sensor_led_bottom: lm75@49 {
++						compatible = "lm75";
++						reg = <0x49>;
++				};
++				temp_sensor_led_middle: lm75@4b {
++						compatible = "lm75";
++						reg = <0x4b>;
++				};
++				temp_sensor_led_top: lm75@4a {
++						compatible = "lm75";
++						reg = <0x4b>;
++				};
++				temp_sensor_processor: lm75@4e {
++						compatible = "lm75";
++						reg = <0x4e>;
++				};
++				temp_sensor_dcdc: lm75@4f {
++						compatible = "lm75";
++						reg = <0x4f>;
++				};
++			};
++
++			duart: serial@80074000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&duart_pins_a>;
++				status = "okay";
++			};
++
++			auart0: serial@8006a000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&auart0_2pins_a>;
++				status = "okay";
++			};
++
++			auart1: serial@8006c000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&auart1_2pins_a>;
++				status = "okay";
++			};
++
++			usbphy0: usbphy@8007c000 {
++				status = "okay";
++			};
++
++			usbphy1: usbphy@8007e000 {
++				status = "okay";
++			};
++		};
++	};
++
++	ahb@80080000 {
++		usb0: usb@80080000 {
++			pinctrl-names = "default";
++			pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
++			vbus-supply = <&reg_usb0_vbus>;
++			status = "okay";
++		};
++
++		mac0: ethernet@800f0000 {
++			reg = <0x800f0000 0x4000>;
++			compatible = "fsl,imx28-fec";
++			pinctrl-names = "default";
++			pinctrl-0 = <&mac0_pins_a>;
++			phy-handle = <&ethphy0>;
++			phy-mode = "rmii";
++			phy-supply = <&reg_fec_3v3>;
++			phy-reset-gpios = <&gpio4 13 0>;
++			phy-reset-duration = <100>;
++			status = "okay";
++			mdio {
++				compatible = "fsl,gianfar-mdio";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "okay";
++
++				ethphy0: ethernet-phy@0 {
++					compatible = "ethernet-phy-id0022.1560","ethernet-phy-ieee802.3-c22";
++					reg = <0>;
++					clocks = <&clks 64>;
++					clock-names = "rmii-ref";
++					max-speed = <100>;
++				};
++			};
++		};
++	};
++
++	regulators {
++		compatible = "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reg_3p3v: regulator@0 {
++			compatible = "regulator-fixed";
++			reg = <0>;
++			regulator-name = "3P3V";
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++			regulator-always-on;
++		};
++
++		reg_vddio_sd0: regulator@1 {
++			compatible = "regulator-fixed";
++			reg = <1>;
++			regulator-name = "vddio-sd0";
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++			gpio = <&gpio3 28 0>;
++		};
++
++		reg_fec_3v3: regulator@2 {
++			compatible = "regulator-fixed";
++			reg = <2>;
++			regulator-name = "fec-3v3";
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++			gpio = <&gpio2 15 0>;
++			regulator-always-on;
++		};
++
++		reg_usb0_vbus: regulator@3 {
++			compatible = "regulator-fixed";
++			reg = <3>;
++			regulator-name = "usb0_vbus";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio3 9 0>;
++			enable-active-high;
++		};
++
++		reg_usb1_vbus: regulator@4 {
++			compatible = "regulator-fixed";
++			reg = <4>;
++			regulator-name = "usb1_vbus";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio3 8 0>;
++			enable-active-high;
++		};
++	};
++};
++
++
++
++	
+-- 
+2.13.1
+

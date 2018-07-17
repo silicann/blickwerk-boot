@@ -1,0 +1,6 @@
+[submodule "linux"]
+	path = linux
+	url = http://git-mirror.neusy/linux/kernel/git/torvalds/linux.git
+[submodule "u-boot"]
+	path = u-boot
+	url = http://git.denx.de/u-boot.git

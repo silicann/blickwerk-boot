@@ -1,0 +1,70 @@
+From fa3dfd1b0c1426c59a30ff09da77f12b378e4244 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Sat, 18 Mar 2017 11:11:47 +0100
+Subject: [PATCH 2/3] add urwerk to Kconfig and add a defconfig
+
+---
+ arch/arm/Kconfig                  |  7 +++++++
+ arch/arm/include/asm/mach-types.h |  1 +
+ configs/urwerk_defconfig          | 12 ++++++++++++
+ 3 files changed, 20 insertions(+)
+ create mode 100644 configs/urwerk_defconfig
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index e63309ae9b..e47cdbf03e 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -227,6 +227,12 @@ config TARGET_MX28EVK
+ 	select CPU_ARM926EJS
+ 	select SUPPORT_SPL
+ 
++
++config TARGET_URWERK
++    bool "Silicann Urwerk"
++    select CPU_ARM926EJS
++	select SUPPORT_SPL
++
+ config TARGET_MX23_OLINUXINO
+ 	bool "Support mx23_olinuxino"
+ 	select CPU_ARM926EJS
+@@ -991,6 +997,7 @@ source "board/freescale/ls1012afrdm/Kconfig"
+ source "board/freescale/mx23evk/Kconfig"
+ source "board/freescale/mx25pdk/Kconfig"
+ source "board/freescale/mx28evk/Kconfig"
++source "board/silicann/urwerk/Kconfig"
+ source "board/freescale/mx31ads/Kconfig"
+ source "board/freescale/mx31pdk/Kconfig"
+ source "board/freescale/mx35pdk/Kconfig"
+diff --git a/arch/arm/include/asm/mach-types.h b/arch/arm/include/asm/mach-types.h
+index d51be0b1d2..ffc2562f93 100644
+--- a/arch/arm/include/asm/mach-types.h
++++ b/arch/arm/include/asm/mach-types.h
+@@ -1107,6 +1107,7 @@ extern unsigned int __machine_arch_type;
+ #define MACH_TYPE_COLIBRI_T30          4493
+ #define MACH_TYPE_APALIS_T30           4513
+ #define MACH_TYPE_OMAPL138_LCDK        2495
++#define MACH_TYPE_URWERK			   4514
+ 
+ #ifdef CONFIG_ARCH_EBSA110
+ # ifdef machine_arch_type
+diff --git a/configs/urwerk_defconfig b/configs/urwerk_defconfig
+new file mode 100644
+index 0000000000..ada88ac692
+--- /dev/null
++++ b/configs/urwerk_defconfig
+@@ -0,0 +1,12 @@
++CONFIG_ARM=y
++CONFIG_TARGET_URWERK=y
++CONFIG_SPL=y
++CONFIG_CMD_TFTPPUT=y
++CONFIG_CMD_TFTPSRV=y
++CONFIG_CMD_DHCP=y
++CONFIG_CMD_MII=y
++CONFIG_CMD_PING=y
++CONFIG_PHYLIB=y
++CONFIG_NETDEVICES=y
++CONFIG_OF_LIBFDT=y
++# CONFIG_EFI_LOADER is not set
+-- 
+2.13.1
+
