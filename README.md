@@ -50,7 +50,7 @@ Note: The build system will build all three variants when building deb packages.
 
 # Creating a booting system image
 
-The build targets only compile the kernel image, the u-boot image and the kernel modules. In
+The build targets only compile the kernel image, the u-boot image, and the kernel modules. In
 order to make the sensor boot an actual linux operating system there are a few prerequisites:
 
 1. Make sure you have these tools in your PATH:
@@ -61,10 +61,10 @@ order to make the sensor boot an actual linux operating system there are a few p
    * [`elftosb`](https://github.com/eewiki/elftosb)
    * [`mxsboot`](http://www.denx.de/wiki/U-Boot/), a deb package named imx28-mxsboot 
      is part of this repository
-2. If you haven’t already run `make dist-deb` to build the deb packages
+2. If you haven’t already, run `make dist-deb` to build the deb packages
 3. Run `scripts/image.sh create /path/to/a/linux-image-wurzelwerk-imx28-$variant.deb` 
    as root or via sudo 
-4. That’s it! There is an `.img` file next to the deb file that you can now write to a SD card.
+4. That’s it! There’s an `.img` file next to the `.deb` that you can now write to an SD card.
 
 
 ## Todos
@@ -72,3 +72,7 @@ order to make the sensor boot an actual linux operating system there are a few p
 * deb packages are set to Architecture=all which indicates that they are 
   architecture independent (they are not). This is an easy work-around to
   support cross-compilation on other platforms. 
+
+## Legal
+
+Linux® is the registered trademark of Linus Torvalds in the U.S. and other countries.
