@@ -1,0 +1,38 @@
+From b93aa7282c11faa8a164113724e6b0ab1b33005a Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Sat, 11 Aug 2018 11:27:04 +0200
+Subject: [PATCH] config:urwerk: enable overlayfs
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/configs/urwerk_defconfig             | 1 +
+ arch/arm/configs/urwerk_earlyprintk_defconfig | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/urwerk_defconfig b/arch/arm/configs/urwerk_defconfig
+index 49ed5685..df04ceb5 100644
+--- a/arch/arm/configs/urwerk_defconfig
++++ b/arch/arm/configs/urwerk_defconfig
+@@ -238,6 +238,7 @@ CONFIG_EXT4_FS_POSIX_ACL=n
+ CONFIG_AUTOFS4_FS=y
+ CONFIG_FUSE_FS=m
+ CONFIG_CUSE=m
++CONFIG_OVERLAY_FS=y
+ CONFIG_FSCACHE=m
+ CONFIG_FSCACHE_STATS=y
+ CONFIG_CACHEFILES=m
+diff --git a/arch/arm/configs/urwerk_earlyprintk_defconfig b/arch/arm/configs/urwerk_earlyprintk_defconfig
+index be303c50..6e9fab33 100644
+--- a/arch/arm/configs/urwerk_earlyprintk_defconfig
++++ b/arch/arm/configs/urwerk_earlyprintk_defconfig
+@@ -227,6 +227,7 @@ CONFIG_EXT4_FS_POSIX_ACL=n
+ CONFIG_AUTOFS4_FS=y
+ CONFIG_FUSE_FS=m
+ CONFIG_CUSE=m
++CONFIG_OVERLAY_FS=y
+ CONFIG_FSCACHE=m
+ CONFIG_FSCACHE_STATS=y
+ CONFIG_CACHEFILES=m
+-- 
+2.18.0
+
