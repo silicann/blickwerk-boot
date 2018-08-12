@@ -1,0 +1,38 @@
+From d84a7cc3d05db887d047eed6221dd69c97e38e95 Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Fri, 10 Aug 2018 12:41:59 +0200
+Subject: [PATCH] usb: gadget: enable dwc2 module
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ arch/arm/configs/urwerk_defconfig             | 1 +
+ arch/arm/configs/urwerk_earlyprintk_defconfig | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/urwerk_defconfig b/arch/arm/configs/urwerk_defconfig
+index 49ed5685..06ff9d1e 100644
+--- a/arch/arm/configs/urwerk_defconfig
++++ b/arch/arm/configs/urwerk_defconfig
+@@ -185,6 +185,7 @@ CONFIG_USB_WDM=m
+ CONFIG_USBIP_CORE=m
+ CONFIG_USBIP_VHCI_HCD=m
+ CONFIG_USBIP_HOST=m
++CONFIG_USB_DWC2=m
+ CONFIG_USB_CHIPIDEA=y
+ CONFIG_USB_CHIPIDEA_UDC=y
+ CONFIG_USB_CHIPIDEA_HOST=y
+diff --git a/arch/arm/configs/urwerk_earlyprintk_defconfig b/arch/arm/configs/urwerk_earlyprintk_defconfig
+index be303c50..2bd254a6 100644
+--- a/arch/arm/configs/urwerk_earlyprintk_defconfig
++++ b/arch/arm/configs/urwerk_earlyprintk_defconfig
+@@ -185,6 +185,7 @@ CONFIG_USB_STORAGE=m
+ CONFIG_USBIP_CORE=m
+ CONFIG_USBIP_VHCI_HCD=m
+ CONFIG_USBIP_HOST=m
++CONFIG_USB_DWC2=m
+ CONFIG_USB_MXS_PHY=m
+ CONFIG_USB_GADGET=y
+ CONFIG_USB_ETH=m
+-- 
+2.18.0
+
