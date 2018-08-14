@@ -2,7 +2,7 @@ Source: linux-image-wurzelwerk-imx28
 Section: kernel
 Priority: optional
 Maintainer: Konrad Mohrfeldt <mohrfeldt@silicann.com>
-Build-Depends: debhelper (>= 9), dh-exec, lzop
+Build-Depends: debhelper (>= 9), dh-exec, lzop, gcc-arm-linux-gnueabi
 Standards-Version: 3.9.8
 
 Package: linux-image-wurzelwerk-imx28-production
