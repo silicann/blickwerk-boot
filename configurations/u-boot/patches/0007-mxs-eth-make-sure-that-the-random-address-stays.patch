@@ -1,7 +1,7 @@
-From 8056596d6f3b96693003da7f0069be7e720e852b Mon Sep 17 00:00:00 2001
+From ddf3a154739d0ddb4f36a69ecccece3e5043d2ee Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Fri, 23 Jun 2017 18:53:29 +0200
-Subject: [PATCH 7/8] mxs:eth: make sure that the random address stays
+Subject: [PATCH 07/12] mxs:eth: make sure that the random address stays
 
 If values get read from fuses dont write zeros...
 
@@ -13,7 +13,7 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
  3 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm/cpu/arm926ejs/mxs/mxs.c b/arch/arm/cpu/arm926ejs/mxs/mxs.c
-index 56e2389708..7e7776b15e 100644
+index f8c6061b1a..44d00d9ae1 100644
 --- a/arch/arm/cpu/arm926ejs/mxs/mxs.c
 +++ b/arch/arm/cpu/arm926ejs/mxs/mxs.c
 @@ -261,14 +261,18 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
@@ -66,5 +66,5 @@ index dcb00726ad..48acfaa097 100644
  CONFIG_NETDEVICES=y
  CONFIG_OF_LIBFDT=y
 -- 
-2.13.2
+2.18.0
 

@@ -1,25 +1,29 @@
-From 6d97055170fbfc4713078d581c12b021c4bef5d6 Mon Sep 17 00:00:00 2001
+From bf2a76bd3a70e44a8514092d7eaebb98571ee682 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 14 Jun 2017 07:27:54 +0200
-Subject: [PATCH 3/8] rework urwerk config.h
+Subject: [PATCH 03/12] rework urwerk config.h
 
 ---
- arch/arm/include/asm/mach-types.h |  1 -
- include/configs/urwerk.h          | 92 ++-------------------------------------
- 2 files changed, 3 insertions(+), 90 deletions(-)
+ arch/arm/include/asm/mach-types.h |  5 +-
+ include/configs/urwerk.h          | 92 +------------------------------
+ 2 files changed, 4 insertions(+), 93 deletions(-)
 
 diff --git a/arch/arm/include/asm/mach-types.h b/arch/arm/include/asm/mach-types.h
-index ffc2562f93..d51be0b1d2 100644
+index 68887fea5a..9f82efe007 100644
 --- a/arch/arm/include/asm/mach-types.h
 +++ b/arch/arm/include/asm/mach-types.h
-@@ -1107,7 +1107,6 @@ extern unsigned int __machine_arch_type;
- #define MACH_TYPE_COLIBRI_T30          4493
+@@ -4456,10 +4456,7 @@
+ #define MACH_TYPE_MPQ8064_DMA          4511
+ #define MACH_TYPE_WEMS_ASD01           4512
  #define MACH_TYPE_APALIS_T30           4513
- #define MACH_TYPE_OMAPL138_LCDK        2495
--#define MACH_TYPE_URWERK			   4514
- 
- #ifdef CONFIG_ARCH_EBSA110
- # ifdef machine_arch_type
+-//#define MACH_TYPE_MX6Q_QSBC35_C398     4514
+-//disable this mach type as we started using that number for the urwerk earlier
+-//and we will hopefully never need this one
+-#define MACH_TYPE_URWERK               4514
++#define MACH_TYPE_MX6Q_QSBC35_C398     4514
+ #define MACH_TYPE_ARMSTONEA9           4515
+ #define MACH_TYPE_OMAP_BLAZETABLET     4516
+ #define MACH_TYPE_AR6MXQ               4517
 diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
 index 0f362c9e94..295095c38a 100644
 --- a/include/configs/urwerk.h
@@ -164,5 +168,5 @@ index 0f362c9e94..295095c38a 100644
  
  /* The rest of the configuration is shared */
 -- 
-2.13.2
+2.18.0
 

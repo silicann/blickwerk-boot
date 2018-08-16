@@ -1,7 +1,7 @@
-From 5c4f7cec9cd8a1d2e840ffc4bdcdb60731f66f7a Mon Sep 17 00:00:00 2001
+From d29ad62ed4ce0fa3c8465682c037df32be75d5db Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 20 Jun 2017 21:01:31 +0200
-Subject: [PATCH 4/8] arm: mxs: read the whole mac address from fuses
+Subject: [PATCH 04/12] arm: mxs: read the whole mac address from fuses
 
 before the code assumed a fixed part of the mac address we want to be
 hundert percent flexible that why we read the first 32 bits from
@@ -13,7 +13,7 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
  1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/arch/arm/cpu/arm926ejs/mxs/mxs.c b/arch/arm/cpu/arm926ejs/mxs/mxs.c
-index 229862079a..56e2389708 100644
+index 840dd9edbd..f8c6061b1a 100644
 --- a/arch/arm/cpu/arm926ejs/mxs/mxs.c
 +++ b/arch/arm/cpu/arm926ejs/mxs/mxs.c
 @@ -261,12 +261,17 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
@@ -40,5 +40,5 @@ index 229862079a..56e2389708 100644
  #else
  void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
 -- 
-2.13.2
+2.18.0
 

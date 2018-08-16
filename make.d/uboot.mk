@@ -9,7 +9,7 @@ UBOOT_BUILD_FLAGS = $(GENERIC_BUILD_FLAGS) -C "$(DIR_UBOOT)" KBUILD_OUTPUT="$(DI
 
 UBOOT_TARBALL = $(DIR_BUILD)/uboot-$(UBOOT_VERSION).tar.bz2
 UBOOT_TARBALL_URL = ftp://ftp.denx.de/pub/u-boot/u-boot-$(UBOOT_VERSION).tar.bz2
-UBOOT_TARBALL_HASH = e49337262ecac44dbdeac140f2c6ebd1eba345e0162b0464172e7f05583ed7bb
+UBOOT_TARBALL_HASH = f54baf3f9325bf444c7905f3a5b6f83680edb1e6e1a4d5f8a5ad80abe885113f
 
 ifeq ($(VARIANT),development)
 	UBOOT_BUILD_TARGET = urwerk_development_defconfig

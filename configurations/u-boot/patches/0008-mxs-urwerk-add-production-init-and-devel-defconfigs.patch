@@ -1,7 +1,7 @@
-From ab268c59b0e704a6108cbb732ce35301f40998d4 Mon Sep 17 00:00:00 2001
+From 6a894834c452efe933f03fcd796c603cb4c3c64b Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 12 Jul 2017 19:34:36 +0200
-Subject: [PATCH] mxs: urwerk: add production,init and devel defconfigs
+Subject: [PATCH 08/12] mxs: urwerk: add production,init and devel defconfigs
 
 make sure that the uart *really* stays silent aka dead for production,
 change the muxing depending on defconfig.
@@ -10,12 +10,12 @@ move the default uboot env from bootcmd definition to EXTRA_ENV_SETTINGS
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
- board/silicann/urwerk/iomux.c                      | 10 ++++--
- board/silicann/urwerk/urwerk.c                     |  5 +++
- configs/urwerk_development_defconfig               | 13 +++++++
- .../{urwerk_defconfig => urwerk_init_defconfig}    | 10 +++---
- configs/urwerk_production_defconfig                | 11 ++----
- include/configs/urwerk.h                           | 42 ++++++++++++++++++----
+ board/silicann/urwerk/iomux.c                 | 10 +++--
+ board/silicann/urwerk/urwerk.c                |  5 +++
+ configs/urwerk_development_defconfig          | 13 ++++++
+ ...urwerk_defconfig => urwerk_init_defconfig} | 10 ++---
+ configs/urwerk_production_defconfig           | 11 +----
+ include/configs/urwerk.h                      | 42 +++++++++++++++----
  6 files changed, 67 insertions(+), 24 deletions(-)
  create mode 100644 configs/urwerk_development_defconfig
  rename configs/{urwerk_defconfig => urwerk_init_defconfig} (50%)
@@ -205,5 +205,5 @@ index 1578d50406..a7b153ff46 100644
  /* The rest of the configuration is shared */
  #include <configs/mxs.h>
 -- 
-2.13.2
+2.18.0
 

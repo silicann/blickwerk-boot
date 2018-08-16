@@ -1,0 +1,92 @@
+From 5afe00d9956f38df5d6bb69a9c6f544fedfe6bae Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Thu, 16 Aug 2018 18:27:29 +0200
+Subject: [PATCH 12/12] urwerk: config: update configuration to be compatible
+ to 2017.03
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ configs/urwerk_development_defconfig | 5 +++++
+ configs/urwerk_init_defconfig        | 5 +++++
+ configs/urwerk_production_defconfig  | 5 +++++
+ include/configs/urwerk.h             | 2 --
+ 4 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/configs/urwerk_development_defconfig b/configs/urwerk_development_defconfig
+index 09deee7039..445396c96b 100644
+--- a/configs/urwerk_development_defconfig
++++ b/configs/urwerk_development_defconfig
+@@ -1,6 +1,10 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
++CONFIG_SPL_MMC_TINY=y
+ CONFIG_URWERK_DEVELOPMENT=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_AUTOBOOT_KEYED=y
+@@ -9,5 +13,6 @@ CONFIG_AUTOBOOT_STOP_STR="foo"
+ CONFIG_NET_RANDOM_ETHADDR=y
+ CONFIG_PHYLIB=y
+ CONFIG_NETDEVICES=y
++CONFIG_MMC_MXS=y
+ CONFIG_OF_LIBFDT=y
+ # CONFIG_EFI_LOADER is not set
+diff --git a/configs/urwerk_init_defconfig b/configs/urwerk_init_defconfig
+index fdd6a282d0..561218e53d 100644
+--- a/configs/urwerk_init_defconfig
++++ b/configs/urwerk_init_defconfig
+@@ -1,6 +1,10 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
++CONFIG_SPL_MMC_TINY=y
+ CONFIG_URWERK_INIT=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_AUTOBOOT_KEYED=y
+@@ -9,5 +13,6 @@ CONFIG_AUTOBOOT_STOP_STR="init"
+ CONFIG_NET_RANDOM_ETHADDR=y
+ CONFIG_PHYLIB=y
+ CONFIG_NETDEVICES=y
++CONFIG_MMC_MXS=y
+ CONFIG_OF_LIBFDT=y
+ # CONFIG_EFI_LOADER is not set
+diff --git a/configs/urwerk_production_defconfig b/configs/urwerk_production_defconfig
+index e96da1e182..12c1a93b0e 100644
+--- a/configs/urwerk_production_defconfig
++++ b/configs/urwerk_production_defconfig
+@@ -1,7 +1,12 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_OF_LIBFDT=y
++CONFIG_SPL_MMC_TINY=y
++CONFIG_MMC_MXS=y
+ # CONFIG_EFI_LOADER is not set
+ CONFIG_BOOTDELAY=0
+ CONFIG_URWERK_PRODUCTION=y
+diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
+index 41ba376eea..bbc3dc6981 100644
+--- a/include/configs/urwerk.h
++++ b/include/configs/urwerk.h
+@@ -20,9 +20,7 @@
+ #define CONFIG_SPL_SERIAL_SUPPORT
+ 
+ /* U-Boot Commands */
+-#define CONFIG_SYS_NO_FLASH
+ #define CONFIG_SYS_MAX_FLASH_BANKS 0
+-#define CONFIG_DISPLAY_CPUINFO
+ 
+ #define CONFIG_CMD_DATE
+ #define CONFIG_CMD_FUSE
+-- 
+2.18.0
+

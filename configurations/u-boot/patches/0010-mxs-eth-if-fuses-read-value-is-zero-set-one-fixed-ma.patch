@@ -1,7 +1,7 @@
-From d324d533273f0b34442feae8735716c530b54e54 Mon Sep 17 00:00:00 2001
+From 689e832170160a62323ef5f7fdda2fcdea80a3ea Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Tue, 12 Jun 2018 19:21:39 +0200
-Subject: [PATCH 10/10] mxs: eth: if fuses read value is zero set one fixed mac
+Subject: [PATCH 10/12] mxs: eth: if fuses read value is zero set one fixed mac
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/cpu/arm926ejs/mxs/mxs.c b/arch/arm/cpu/arm926ejs/mxs/mxs.c
-index 7e7776b15e..987dd8b1f2 100644
+index 44d00d9ae1..3458449f8a 100644
 --- a/arch/arm/cpu/arm926ejs/mxs/mxs.c
 +++ b/arch/arm/cpu/arm926ejs/mxs/mxs.c
 @@ -249,6 +249,7 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
@@ -48,5 +48,5 @@ index 7e7776b15e..987dd8b1f2 100644
  	//mx28_adjust_mac(dev_id, mac);
  }
 -- 
-2.17.1
+2.18.0
 

@@ -1,33 +1,34 @@
-From 078869375318004d3e6ff6dc1a929c0dc01a1d33 Mon Sep 17 00:00:00 2001
+From 90792f87bebf8dab825a04ff1bf8c67dde661ab7 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sat, 18 Mar 2017 11:11:47 +0100
-Subject: [PATCH 2/8] add urwerk to Kconfig and add a defconfig
+Subject: [PATCH 02/12] add urwerk to Kconfig and add a defconfig
 
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
  arch/arm/Kconfig                  |  7 +++++++
- arch/arm/include/asm/mach-types.h |  1 +
+ arch/arm/include/asm/mach-types.h |  5 ++++-
  configs/urwerk_defconfig          | 12 ++++++++++++
- 3 files changed, 20 insertions(+)
+ 3 files changed, 23 insertions(+), 1 deletion(-)
  create mode 100644 configs/urwerk_defconfig
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index e63309ae9b..e47cdbf03e 100644
+index 0a05662e7c..8e0a6e9917 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
-@@ -227,6 +227,12 @@ config TARGET_MX28EVK
- 	select CPU_ARM926EJS
+@@ -333,6 +333,12 @@ config TARGET_MX28EVK
  	select SUPPORT_SPL
+ 	select BOARD_EARLY_INIT_F
  
-+
 +config TARGET_URWERK
-+    bool "Silicann Urwerk"
-+    select CPU_ARM926EJS
++	bool "Support Silicann Urwerk"
++	select CPU_ARM926EJS
 +	select SUPPORT_SPL
++	select BOARD_EARLY_INIT_F
 +
  config TARGET_MX23_OLINUXINO
  	bool "Support mx23_olinuxino"
  	select CPU_ARM926EJS
-@@ -991,6 +997,7 @@ source "board/freescale/ls1012afrdm/Kconfig"
+@@ -1220,6 +1226,7 @@ source "board/freescale/ls1012afrdm/Kconfig"
  source "board/freescale/mx23evk/Kconfig"
  source "board/freescale/mx25pdk/Kconfig"
  source "board/freescale/mx28evk/Kconfig"
@@ -36,17 +37,21 @@ index e63309ae9b..e47cdbf03e 100644
  source "board/freescale/mx31pdk/Kconfig"
  source "board/freescale/mx35pdk/Kconfig"
 diff --git a/arch/arm/include/asm/mach-types.h b/arch/arm/include/asm/mach-types.h
-index d51be0b1d2..ffc2562f93 100644
+index 9f82efe007..68887fea5a 100644
 --- a/arch/arm/include/asm/mach-types.h
 +++ b/arch/arm/include/asm/mach-types.h
-@@ -1107,6 +1107,7 @@ extern unsigned int __machine_arch_type;
- #define MACH_TYPE_COLIBRI_T30          4493
+@@ -4456,7 +4456,10 @@
+ #define MACH_TYPE_MPQ8064_DMA          4511
+ #define MACH_TYPE_WEMS_ASD01           4512
  #define MACH_TYPE_APALIS_T30           4513
- #define MACH_TYPE_OMAPL138_LCDK        2495
-+#define MACH_TYPE_URWERK			   4514
- 
- #ifdef CONFIG_ARCH_EBSA110
- # ifdef machine_arch_type
+-#define MACH_TYPE_MX6Q_QSBC35_C398     4514
++//#define MACH_TYPE_MX6Q_QSBC35_C398     4514
++//disable this mach type as we started using that number for the urwerk earlier
++//and we will hopefully never need this one
++#define MACH_TYPE_URWERK               4514
+ #define MACH_TYPE_ARMSTONEA9           4515
+ #define MACH_TYPE_OMAP_BLAZETABLET     4516
+ #define MACH_TYPE_AR6MXQ               4517
 diff --git a/configs/urwerk_defconfig b/configs/urwerk_defconfig
 new file mode 100644
 index 0000000000..ada88ac692
@@ -66,5 +71,5 @@ index 0000000000..ada88ac692
 +CONFIG_OF_LIBFDT=y
 +# CONFIG_EFI_LOADER is not set
 -- 
-2.13.2
+2.18.0
 

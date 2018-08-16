@@ -1,14 +1,14 @@
-From 8d609b6d9bc81413c0e7421c1ec06dd6269003dd Mon Sep 17 00:00:00 2001
+From e6bf3dfd5a6df94fe9f9db3c5124b71c2b5e228d Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Wed, 2 Aug 2017 18:44:12 +0200
-Subject: [PATCH] urwerk: reset the adsp on bootup if needed via gpio
+Subject: [PATCH 09/12] urwerk: reset the adsp on bootup if needed via gpio
 
 Signed-off-by: Markus Valentin <valy@systemausfall.org>
 ---
  board/silicann/urwerk/iomux.c  |  5 +++++
- board/silicann/urwerk/urwerk.c | 26 ++++++++++++++++++++++++++
+ board/silicann/urwerk/urwerk.c | 27 +++++++++++++++++++++++++++
  include/configs/urwerk.h       | 12 ++++++++++--
- 3 files changed, 41 insertions(+), 2 deletions(-)
+ 3 files changed, 42 insertions(+), 2 deletions(-)
 
 diff --git a/board/silicann/urwerk/iomux.c b/board/silicann/urwerk/iomux.c
 index 3d9fd527cf..2b6e45b32a 100644
@@ -34,7 +34,7 @@ index 3d9fd527cf..2b6e45b32a 100644
  
  #define HW_DRAM_CTL29	(0x74 >> 2)
 diff --git a/board/silicann/urwerk/urwerk.c b/board/silicann/urwerk/urwerk.c
-index 62f064a758..9ba2221212 100644
+index 62f064a758..237c9d88da 100644
 --- a/board/silicann/urwerk/urwerk.c
 +++ b/board/silicann/urwerk/urwerk.c
 @@ -72,6 +72,33 @@ int board_init(void)
@@ -72,7 +72,7 @@ index 62f064a758..9ba2221212 100644
  }
  
 diff --git a/include/configs/urwerk.h b/include/configs/urwerk.h
-index a7b153ff46..48b398b9a0 100644
+index a7b153ff46..41ba376eea 100644
 --- a/include/configs/urwerk.h
 +++ b/include/configs/urwerk.h
 @@ -27,6 +27,7 @@
@@ -111,5 +111,5 @@ index a7b153ff46..48b398b9a0 100644
  #ifdef CONFIG_URWERK_INIT
  #define CONFIG_BOOTCOMMAND \
 -- 
-2.13.3
+2.18.0
 

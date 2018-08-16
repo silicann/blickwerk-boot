@@ -1,7 +1,7 @@
-From ca276c325ad8f3b993c52cc453163836e4af6f92 Mon Sep 17 00:00:00 2001
+From fab0f9c0c5e1c7551df4d7f1c1a72d6c8fc0d83e Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Fri, 23 Jun 2017 18:41:13 +0200
-Subject: [PATCH 6/8] urwerk: defconfig: add the urwerk_production_defconfig
+Subject: [PATCH 06/12] urwerk: defconfig: add the urwerk_production_defconfig
 
 * this silents the console
 
@@ -44,5 +44,5 @@ index 295095c38a..1578d50406 100644
      "memargs=setenv bootargs console=${console_debug_line},${baudrate} earlyprintk=serial ${memroot} \0" \
      "memboot=echo Booting from memory; run memargs; bootz ${zimage_addr} ${initrd_addr} ${fdt_addr}\0"\
 -- 
-2.13.2
+2.18.0
 

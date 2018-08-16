@@ -1,15 +1,15 @@
-From 8b61f3496c9156d81f6e9f841b31500c361d82aa Mon Sep 17 00:00:00 2001
+From ceb767ab5a7014912f6d1dde9c3a202bc3f5b52b Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Sat, 18 Mar 2017 11:11:29 +0100
-Subject: [PATCH 1/8] add urwerk board related files inspired by imx28evk
+Subject: [PATCH 01/12] add urwerk board related files inspired by imx28evk
 
 ---
  board/silicann/urwerk/Kconfig     |  14 +++
- board/silicann/urwerk/MAINTAINERS |   6 ++
- board/silicann/urwerk/Makefile    |  12 +++
- board/silicann/urwerk/iomux.c     | 195 ++++++++++++++++++++++++++++++++++++++
- board/silicann/urwerk/urwerk.c    | 133 ++++++++++++++++++++++++++
- include/configs/urwerk.h          | 178 ++++++++++++++++++++++++++++++++++
+ board/silicann/urwerk/MAINTAINERS |   6 +
+ board/silicann/urwerk/Makefile    |  12 ++
+ board/silicann/urwerk/iomux.c     | 195 ++++++++++++++++++++++++++++++
+ board/silicann/urwerk/urwerk.c    | 133 ++++++++++++++++++++
+ include/configs/urwerk.h          | 178 +++++++++++++++++++++++++++
  6 files changed, 538 insertions(+)
  create mode 100644 board/silicann/urwerk/Kconfig
  create mode 100644 board/silicann/urwerk/MAINTAINERS
@@ -52,7 +52,7 @@ index 0000000000..6a4d41bcfe
 +F:	configs/urwerk_defconfig
 diff --git a/board/silicann/urwerk/Makefile b/board/silicann/urwerk/Makefile
 new file mode 100644
-index 0000000000..798c21e3ac
+index 0000000000..ebc6b42329
 --- /dev/null
 +++ b/board/silicann/urwerk/Makefile
 @@ -0,0 +1,12 @@
@@ -593,5 +593,5 @@ index 0000000000..0f362c9e94
 +
 +#endif /* __CONFIGS_URWERK_H__ */
 -- 
-2.13.2
+2.18.0
 

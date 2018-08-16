@@ -1,0 +1,77 @@
+From 1f28aae50adb72b047c40bd827a3bb44ab83917a Mon Sep 17 00:00:00 2001
+From: Markus Valentin <valy@systemausfall.org>
+Date: Thu, 16 Aug 2018 18:25:54 +0200
+Subject: [PATCH 11/12] Kconfig: revert build modes to Kconfig
+
+Signed-off-by: Markus Valentin <valy@systemausfall.org>
+---
+ board/silicann/urwerk/Kconfig        | 13 +++++++++++++
+ configs/urwerk_development_defconfig |  2 +-
+ configs/urwerk_init_defconfig        |  2 +-
+ configs/urwerk_production_defconfig  |  2 +-
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/board/silicann/urwerk/Kconfig b/board/silicann/urwerk/Kconfig
+index 9110960969..fd427ceeb1 100644
+--- a/board/silicann/urwerk/Kconfig
++++ b/board/silicann/urwerk/Kconfig
+@@ -11,4 +11,17 @@ config SYS_SOC
+ 
+ config SYS_CONFIG_NAME
+ 	default "urwerk"
++
++config URWERK_PRODUCTION
++ 	bool "Enable Urwerk Production build"
++ 	default  y
++
++config URWERK_INIT
++ 	bool "Enable Urwerk Initialsation build"
++ 	default  n
++
++config URWERK_DEVELOPMENT
++ 	bool "Enable Urwerk Development build"
++ 	default  n
++
+ endif
+diff --git a/configs/urwerk_development_defconfig b/configs/urwerk_development_defconfig
+index 5519de9b6a..09deee7039 100644
+--- a/configs/urwerk_development_defconfig
++++ b/configs/urwerk_development_defconfig
+@@ -1,7 +1,7 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
+-CONFIG_SYS_EXTRA_OPTIONS="URWERK_DEVELOPMENT=1"
++CONFIG_URWERK_DEVELOPMENT=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_AUTOBOOT_KEYED=y
+ CONFIG_AUTOBOOT_PROMPT="I'm always happy when I'm protesting %d\n"
+diff --git a/configs/urwerk_init_defconfig b/configs/urwerk_init_defconfig
+index 623ecee110..fdd6a282d0 100644
+--- a/configs/urwerk_init_defconfig
++++ b/configs/urwerk_init_defconfig
+@@ -1,7 +1,7 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
+-CONFIG_SYS_EXTRA_OPTIONS="URWERK_INIT=1"
++CONFIG_URWERK_INIT=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_AUTOBOOT_KEYED=y
+ CONFIG_AUTOBOOT_PROMPT="Initialize me! %d\n"
+diff --git a/configs/urwerk_production_defconfig b/configs/urwerk_production_defconfig
+index 346ef72421..e96da1e182 100644
+--- a/configs/urwerk_production_defconfig
++++ b/configs/urwerk_production_defconfig
+@@ -1,7 +1,7 @@
+ CONFIG_ARM=y
+ CONFIG_TARGET_URWERK=y
+ CONFIG_SPL=y
+-CONFIG_SYS_EXTRA_OPTIONS="URWERK_PRODUCTION=1"
+ CONFIG_OF_LIBFDT=y
+ # CONFIG_EFI_LOADER is not set
+ CONFIG_BOOTDELAY=0
++CONFIG_URWERK_PRODUCTION=y
+-- 
+2.18.0
+
