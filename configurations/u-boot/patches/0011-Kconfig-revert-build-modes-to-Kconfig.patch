@@ -1,4 +1,4 @@
-From 1f28aae50adb72b047c40bd827a3bb44ab83917a Mon Sep 17 00:00:00 2001
+From aac1ecccde01b9b32a150b169a95be7ec7555d54 Mon Sep 17 00:00:00 2001
 From: Markus Valentin <valy@systemausfall.org>
 Date: Thu, 16 Aug 2018 18:25:54 +0200
 Subject: [PATCH 11/12] Kconfig: revert build modes to Kconfig
@@ -12,7 +12,7 @@ Signed-off-by: Markus Valentin <valy@systemausfall.org>
  4 files changed, 16 insertions(+), 3 deletions(-)
 
 diff --git a/board/silicann/urwerk/Kconfig b/board/silicann/urwerk/Kconfig
-index 9110960969..fd427ceeb1 100644
+index 9110960969..3dc432e5b5 100644
 --- a/board/silicann/urwerk/Kconfig
 +++ b/board/silicann/urwerk/Kconfig
 @@ -11,4 +11,17 @@ config SYS_SOC
@@ -22,7 +22,7 @@ index 9110960969..fd427ceeb1 100644
 +
 +config URWERK_PRODUCTION
 + 	bool "Enable Urwerk Production build"
-+ 	default  y
++ 	default  n
 +
 +config URWERK_INIT
 + 	bool "Enable Urwerk Initialsation build"
