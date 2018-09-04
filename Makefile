@@ -20,7 +20,7 @@ MODULE_FLAGS = -DMODULE -fno-pic
 
 # dependencies
 # if you change these update the hash in the corresponding mk file in make.d/
-LINUX_VERSION = 4.4.148
+LINUX_VERSION = 4.4.153
 UBOOT_VERSION = 2017.03
 
 
