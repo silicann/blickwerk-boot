@@ -5,6 +5,7 @@ DEBIAN_UPLOAD_TARGET = silicann
 # definitions
 PWD = $(shell pwd)
 VARIANT ?= production
+DEBIAN_BUILDPACKAGE_COMMAND ?= dpkg-buildpackage
 
 # dirs
 DIR_CONFIG = $(PWD)/configurations

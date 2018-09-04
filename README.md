@@ -48,10 +48,40 @@ three distinct variants that can be set via the `VARIANT` environment variable. 
 Note: The build system will build all three variants when building deb packages.
 
 
-# Creating a booting system image
+## Building .deb Packages
 
-The build targets only compile the kernel image, the u-boot image, and the kernel modules. In
-order to make the sensor boot an actual linux operating system there are a few prerequisites:
+It is highly recommended, that you’ll build this kernel in a Debian environment.
+There’s a high chance, that you will encounter difficulties on other platforms, that
+are not covered by this guide. 
+
+In order to build a kernel you’ll need a few build dependencies. These are listed in the
+`debian/control` file in the line starting with `Build-Depends`. The names listed there
+are Debian packages that you can install with `apt`. You can’t do anything wrong: 
+the debian build tools will abort relatively early into the build process in the event 
+that you forgot something. 
+
+After you have installed the build dependencies you can continue with building the actual
+kernel and the .deb packages. The `dist-deb` make target from above will build the three
+kernel variants and the `mxsboot` tool, that is required in order to create bootstreams
+for SD cards. Continue by running:
+ 
+ ```make dist-deb DEBIAN_BUILDPACKAGE_COMMAND="dpkg-buildpackage -us -uc"```
+  
+Once this task is finished (which might take a while), you’ll find a number of .deb files
+in the `build/debian` directory.
+
+**Note**: The DEBIAN_BUILDPACKAGE_COMMAND override is necessary, to prevent the debian build
+tools from signing the .deb files. This is the default behaviour, but will fail because the
+email address used for signing is the one from the last `debian/changelog` entry. 
+
+
+## Creating a booting system image
+
+The build targets only compile the kernel image, the u-boot image, and the kernel modules. But
+before you can create a system image you’ll need a kernel .deb package. If you haven’t already, 
+refer to the previous section on how to build .deb packages.
+
+In order to make the sensor boot an actual linux operating system there are a few prerequisites:
 
 1. Make sure you have these tools in your PATH:
    * `cdebootstrap-static`, part of the `cdebootstrap-static` Debian package
@@ -61,17 +91,16 @@ order to make the sensor boot an actual linux operating system there are a few p
    * [`elftosb`](https://github.com/eewiki/elftosb)
    * [`mxsboot`](http://www.denx.de/wiki/U-Boot/), a deb package named imx28-mxsboot 
      is part of this repository
-2. If you haven’t already, run `make dist-deb` to build the deb packages
-3. Run `scripts/image.sh create /path/to/a/linux-image-wurzelwerk-imx28-$variant.deb` 
+2. Run `scripts/image.sh create /path/to/a/linux-image-wurzelwerk-imx28-$variant.deb` 
    as root or via sudo 
-4. That’s it! There’s an `.img` file next to the `.deb` that you can now write to an SD card.
+3. That’s it! There’s an `.img` file next to the `.deb` that you can now write to an SD card.
 
 
 ## Todos
 
 * deb packages are set to Architecture=all which indicates that they are 
-  architecture independent (they are not). This is an easy work-around to
-  support cross-compilation on other platforms. 
+  architecture independent (they are not). This is an easy but dirty 
+  work-around to support cross-compilation on other platforms. 
 
 ## Legal
 
