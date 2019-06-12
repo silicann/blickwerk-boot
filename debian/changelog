@@ -1,3 +1,9 @@
+linux-image-wurzelwerk-imx28 (1.4.4-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Konrad Mohrfeldt <mohrfeldt@silicann.com>  Wed, 12 Jun 2019 12:22:11 +0200
+
 linux-image-wurzelwerk-imx28 (1.4.3-1) unstable; urgency=medium
 
   * New upstream release
