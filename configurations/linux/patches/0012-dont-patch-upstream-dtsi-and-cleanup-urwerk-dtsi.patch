@@ -1,0 +1,503 @@
+Index: linux-4.4.182/arch/arm/boot/dts/imx28.dtsi
+===================================================================
+--- linux-4.4.182.orig/arch/arm/boot/dts/imx28.dtsi
++++ linux-4.4.182/arch/arm/boot/dts/imx28.dtsi
+@@ -405,17 +405,6 @@
+ 					fsl,pull-up = <MXS_PULL_DISABLE>;
+ 				};
+ 
+-				auart4_2pins_b: auart4@1 {
+-					reg = <1>;
+-					fsl,pinmux-ids = <
+-						MX28_PAD_AUART0_RTS__AUART4_TX
+-						MX28_PAD_AUART0_CTS__AUART4_RX
+-						>;
+-					fsl,drive-strength = <MXS_DRIVE_4mA>;
+-					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+-					fsl,pull-up = <MXS_PULL_DISABLE>;
+-				};
+-
+ 				mac0_pins_a: mac0@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+@@ -458,6 +447,7 @@
+ 						MX28_PAD_SSP0_DATA3__SSP0_D3
+ 						MX28_PAD_SSP0_DATA4__SSP0_D4
+ 						MX28_PAD_SSP0_DATA5__SSP0_D5
++						MX28_PAD_SSP0_DATA6__SSP0_D6
+ 						MX28_PAD_SSP0_DATA7__SSP0_D7
+ 						MX28_PAD_SSP0_CMD__SSP0_CMD
+ 						MX28_PAD_SSP0_DETECT__SSP0_CARD_DETECT
+@@ -507,27 +497,13 @@
+ 						MX28_PAD_GPMI_D02__SSP1_D2
+ 						MX28_PAD_GPMI_D03__SSP1_D3
+ 						MX28_PAD_GPMI_RDY1__SSP1_CMD
++						MX28_PAD_GPMI_RDY0__SSP1_CARD_DETECT
+ 						MX28_PAD_GPMI_WRN__SSP1_SCK
+ 					>;
+ 					fsl,drive-strength = <MXS_DRIVE_8mA>;
+ 					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+ 					fsl,pull-up = <MXS_PULL_ENABLE>;
+ 				};
+-				
+-				mmc1_4bit_pins_b: mmc1-4bit@1 {
+-					  reg = <1>;
+-					  fsl,pinmux-ids = <
+-						  MX28_PAD_GPMI_D00__SSP1_D0
+-						  MX28_PAD_GPMI_D01__SSP1_D1
+-						  MX28_PAD_GPMI_D02__SSP1_D2
+-						  MX28_PAD_GPMI_D03__SSP1_D3
+-						  MX28_PAD_GPMI_RDY1__SSP1_CMD
+-						  MX28_PAD_GPMI_WRN__SSP1_SCK
+-						  >;
+-					  fsl,drive-strength = <MXS_DRIVE_8mA>;
+-					  fsl,voltage = <MXS_VOLTAGE_HIGH>;
+-					  fsl,pull-up = <MXS_PULL_ENABLE>;
+-				};
+ 
+ 				mmc1_cd_cfg: mmc1-cd-cfg {
+ 					fsl,pinmux-ids = <
+@@ -866,19 +842,6 @@
+ 					fsl,pull-up = <MXS_PULL_ENABLE>;
+ 				};
+ 
+-				spi3_pins_c: spi3@2 {
+-					reg = <2>;
+-					fsl,pinmux-ids = <
+-						 MX28_PAD_GPMI_RDN__SSP3_SCK
+-						 MX28_PAD_GPMI_RESETN__SSP3_CMD
+-						 MX28_PAD_GPMI_CE0N__SSP3_D0
+-						 MX28_PAD_GPMI_CE1N__SSP3_D3
+-						 >;
+-					fsl,drive-strength = <MXS_DRIVE_8mA>;
+-					fsl,voltage = <MXS_VOLTAGE_HIGH>;
+-					fsl,pull-up = <MXS_PULL_DISABLE>;
+-				};
+-
+ 				usb0_pins_a: usb0@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+Index: linux-4.4.182/arch/arm/boot/dts/urwerk.dtsi
+===================================================================
+--- linux-4.4.182.orig/arch/arm/boot/dts/urwerk.dtsi
++++ linux-4.4.182/arch/arm/boot/dts/urwerk.dtsi
+@@ -10,148 +10,14 @@
+  */
+ 
+ #include "imx28.dtsi"
++#include <dt-bindings/gpio/gpio.h>
+ 
+ / {
+-	apb@80000000 {
+-		apbh@80000000 {
+-			ssp0: ssp@80010000 {
+-				compatible = "fsl,imx28-mmc";
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&mmc0_4bit_pins_a
+-							&mmc0_cd_cfg
+-							&mmc0_sck_cfg>;
+-				bus-width = <4>;
+-				vmmc-supply = <&reg_vddio_sd0>;
+-				status = "okay";
+-			};
+-
+-			ssp1: ssp@80012000 {
+-				compatible = "fsl,imx28-mmc";
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&mmc1_4bit_pins_b
+-						 &mmc1_sck_cfg>;
+-				bus-width = <4>;
+-				vmmc-supply = <&reg_vddio_sd0>;
+-				status = "okay";
+-			};
+-
+-			ssp2: ssp@80014000 {
+-				compatible = "fsl,imx28-spi";
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-				num-cs = <1>;
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&spi2_pins_a>;
+-				status = "okay";
+-				spidev@0 {
+-					compatible = "spidev";
+-					spi-max-frequency = <12000000>;
+-					reg = <0>;
+-				};
+-			};
+-
+-			ssp3: ssp@80016000 {
+-				num-cs = <1>;
+-				#size-cells = <0>;
+-				compatible = "fsl,imx28-spi";
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&spi3_pins_c>;
+-				status = "okay";
+-				spidev@0 {
+-					compatible = "spidev";
+-					spi-max-frequency = <12000000>;
+-					reg = <0>;
+-				};
+-			};
+-		
+-			ocotp: ocotp@8002c000 {
+-				status = "okay";
+-			};
+-		};
+-	
+-		apbx@80040000 {
+-			i2c0: i2c@80058000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&i2c0_pins_a>;
+-				status = "okay";
+-			};
+-
+-			// duart on Urwerk testpads
+-			duart: serial@80074000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&duart_pins_a>;
+-				status = "disabled";
+-			};
+-
+-			auart4: serial@80072000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&auart4_2pins_b>;
+-				status = "disabled";
+-			};
+-
+-			// not used since Urwerk v1.5.3
+-			auart0: serial@8006a000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&auart0_2pins_a>;
+-				status = "disabled";
+-			};
+-
+-			auart1: serial@8006c000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&auart1_2pins_a>;
+-				status = "okay";
+-			};
+-
+-			auart3: serial@80070000 {
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&auart3_2pins_b>;
+-				status = "okay";
+-			};
+-
+-			usbphy0: usbphy@8007c000 {
+-				status = "okay";
+-			};
+-
+-			usbphy1: usbphy@8007e000 {
+-				status = "okay";
+-			};
+-		};
+-	};
+-
+-	ahb@80080000 {
+-		usb0: usb@80080000 {
+-			pinctrl-names = "default";
+-			pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
+-			vbus-supply = <&reg_usb0_vbus>;
+-			status = "okay";
+-		};
+-
+-		mac0: ethernet@800f0000 {
+-			reg = <0x800f0000 0x4000>;
+-			compatible = "fsl,imx28-fec";
+-			pinctrl-names = "default";
+-			pinctrl-0 = <&mac0_pins_a>;
+-			phy-handle = <&ethphy0>;
+-			phy-mode = "rmii";
+-			phy-supply = <&reg_fec_3v3>;
+-			phy-reset-gpios = <&gpio4 13 0>;
+-			phy-reset-duration = <100>;
+-			status = "okay";
+-			mdio {
+-				compatible = "fsl,gianfar-mdio";
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-				status = "okay";
+-
+-				ethphy0: ethernet-phy@0 {
+-					compatible = "ethernet-phy-id0022.1560","ethernet-phy-ieee802.3-c22";
+-					reg = <0>;
+-					clocks = <&clks 64>;
+-					clock-names = "rmii-ref";
+-					max-speed = <100>;
+-				};
+-			};
+-		};
++	model = "Silicann Urwerk-platform";
++	compatible = "silicann,imx28-urwerk", "fsl,imx28";
++
++	memory {
++		reg = <0x40000000 0x08000000>;
+ 	};
+ 
+ 	regulators {
+@@ -174,7 +40,7 @@
+ 			regulator-name = "vddio-sd0";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+-			gpio = <&gpio3 28 0>;
++			gpio = <&gpio3 28 GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+ 		reg_fec_3v3: regulator@2 {
+@@ -183,7 +49,7 @@
+ 			regulator-name = "fec-3v3";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+-			gpio = <&gpio2 15 0>;
++			gpio = <&gpio2 15 GPIO_ACTIVE_HIGH>;
+ 			regulator-always-on;
+ 		};
+ 
+@@ -193,7 +59,7 @@
+ 			regulator-name = "usb0_vbus";
+ 			regulator-min-microvolt = <5000000>;
+ 			regulator-max-microvolt = <5000000>;
+-			gpio = <&gpio3 9 0>;
++			gpio = <&gpio3 9 GPIO_ACTIVE_HIGH>;
+ 			regulator-always-on;
+ 		};
+ 
+@@ -203,12 +69,185 @@
+ 			regulator-name = "usb1_vbus";
+ 			regulator-min-microvolt = <5000000>;
+ 			regulator-max-microvolt = <5000000>;
+-			gpio = <&gpio3 8 0>;
++			gpio = <&gpio3 8 GPIO_ACTIVE_HIGH>;
+ 			enable-active-high;
+ 		};
+ 	};
+ };
+ 
++&pinctrl {
++	auart4_2pins_b: auart4@1 {
++		reg = <1>;
++		fsl,pinmux-ids = <
++				  MX28_PAD_AUART0_RTS__AUART4_TX
++				  MX28_PAD_AUART0_CTS__AUART4_RX
++				 >;
++		fsl,drive-strength = <MXS_DRIVE_4mA>;
++		fsl,voltage = <MXS_VOLTAGE_HIGH>;
++		fsl,pull-up = <MXS_PULL_DISABLE>;
++	};
++
++	mmc1_4bit_pins_b: mmc1-4bit@1 {
++		reg = <1>;
++		fsl,pinmux-ids = <
++				  MX28_PAD_GPMI_D00__SSP1_D0
++				  MX28_PAD_GPMI_D01__SSP1_D1
++				  MX28_PAD_GPMI_D02__SSP1_D2
++				  MX28_PAD_GPMI_D03__SSP1_D3
++				  MX28_PAD_GPMI_RDY1__SSP1_CMD
++				  MX28_PAD_GPMI_WRN__SSP1_SCK
++				 >;
++		fsl,drive-strength = <MXS_DRIVE_8mA>;
++		fsl,voltage = <MXS_VOLTAGE_HIGH>;
++		fsl,pull-up = <MXS_PULL_ENABLE>;
++	};
++
++	spi3_pins_c: spi3@2 {
++		reg = <2>;
++		fsl,pinmux-ids = <
++				  MX28_PAD_GPMI_RDN__SSP3_SCK
++				  MX28_PAD_GPMI_RESETN__SSP3_CMD
++				  MX28_PAD_GPMI_CE0N__SSP3_D0
++				  MX28_PAD_GPMI_CE1N__SSP3_D3
++				 >;
++		fsl,drive-strength = <MXS_DRIVE_8mA>;
++		fsl,voltage = <MXS_VOLTAGE_HIGH>;
++		fsl,pull-up = <MXS_PULL_DISABLE>;
++	};
++};
++
++&ssp0 {
++	compatible = "fsl,imx28-mmc";
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_4bit_pins_a
++		     &mmc0_cd_cfg
++		     &mmc0_sck_cfg>;
++	bus-width = <4>;
++	vmmc-supply = <&reg_vddio_sd0>;
++	status = "okay";
++};
++
++&ssp1 {
++	compatible = "fsl,imx28-mmc";
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc1_4bit_pins_b
++		     &mmc1_sck_cfg>;
++	bus-width = <4>;
++	vmmc-supply = <&reg_vddio_sd0>;
++	status = "okay";
++};
++
++&ssp2 {
++	compatible = "fsl,imx28-spi";
++	#address-cells = <1>;
++	#size-cells = <0>;
++	num-cs = <1>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi2_pins_a>;
++	status = "okay";
++
++	spidev@0 {
++		compatible = "spidev";
++		spi-max-frequency = <12000000>;
++		reg = <0>;
++	};
++};
++
++&ssp3 {
++	num-cs = <1>;
++	#size-cells = <0>;
++	compatible = "fsl,imx28-spi";
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi3_pins_c>;
++	status = "okay";
++
++	spidev@0 {
++		compatible = "spidev";
++		spi-max-frequency = <12000000>;
++		reg = <0>;
++	};
++};
++
++&ocotp {
++	status = "okay";
++};
++
++&i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c0_pins_a>;
++	status = "okay";
++};
++
++// duart on Urwerk testpads
++&duart {
++	pinctrl-names = "default";
++	pinctrl-0 = <&duart_pins_a>;
++	status = "disabled";
++};
++
++&auart4 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&auart4_2pins_b>;
++	status = "disabled";
++};
++
++// not used since Urwerk v1.5.3
++&auart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&auart0_2pins_a>;
++	status = "disabled";
++};
++
++&auart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&auart1_2pins_a>;
++	status = "okay";
++};
++
++&auart3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&auart3_2pins_b>;
++	status = "okay";
++};
+ 
++&usbphy0 {
++	status = "okay";
++};
++
++&usbphy1 {
++	status = "okay";
++};
++
++&usb0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&usb0_id_pins_b &usb0_pins_a>;
++	vbus-supply = <&reg_usb0_vbus>;
++	status = "okay";
++};
++
++&mac0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mac0_pins_a>;
++	phy-handle = <&ethphy0>;
++	phy-mode = "rmii";
++	phy-supply = <&reg_fec_3v3>;
++	phy-reset-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
++	phy-reset-duration = <100>;
++	status = "okay";
++
++	mdio {
++		compatible = "fsl,gianfar-mdio";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		status = "okay";
++
++		ethphy0: ethernet-phy@0 {
++			compatible = "ethernet-phy-id0022.1560","ethernet-phy-ieee802.3-c22";
++			reg = <0>;
++			clocks = <&clks 64>;
++			clock-names = "rmii-ref";
++			max-speed = <100>;
++		};
++	};
++};
+ 
+-	
+Index: linux-4.4.182/arch/arm/boot/dts/urwerk-develop.dts
+===================================================================
+--- linux-4.4.182.orig/arch/arm/boot/dts/urwerk-develop.dts
++++ linux-4.4.182/arch/arm/boot/dts/urwerk-develop.dts
+@@ -12,16 +12,6 @@
+ /dts-v1/;
+ #include "urwerk.dtsi"
+ 
+-/ {
+-	model = "Silicann Urwerk-platform";
+-	compatible = "silicann,imx28-urwerk", "fsl,imx28";
+-
+-	memory {
+-		reg = <0x40000000 0x08000000>;
+-	};
+-
+-};
+-
+ //*************************************************************
+ // ATTENTION: Only choose one DUART config each time,
+ //            and be careful with AUART4, because they
+@@ -31,7 +21,6 @@
+ //*************************************************************/
+ 
+ &duart {
+-
+ 	// duart on Urwerk's external RS232-Pins
+ 	pinctrl-0 = <&duart_pins_b>;
+ 	status = "ok";
+Index: linux-4.4.182/arch/arm/boot/dts/urwerk-production.dts
+===================================================================
+--- linux-4.4.182.orig/arch/arm/boot/dts/urwerk-production.dts
++++ linux-4.4.182/arch/arm/boot/dts/urwerk-production.dts
+@@ -12,16 +12,6 @@
+ /dts-v1/;
+ #include "urwerk.dtsi"
+ 
+-/ {
+-	model = "Silicann Urwerk-platform";
+-	compatible = "silicann,imx28-urwerk", "fsl,imx28";
+-
+-	memory {
+-		reg = <0x40000000 0x08000000>;
+-	};
+-
+-};
+-
+ //*************************************************************
+ // ATTENTION: Only choose one DUART config each time,
+ //            and be careful with AUART4, because they
