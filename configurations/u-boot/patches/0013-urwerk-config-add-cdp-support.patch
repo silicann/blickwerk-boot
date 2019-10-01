@@ -1,0 +1,12 @@
+Index: u-boot-2017.03/cmd/Kconfig
+===================================================================
+--- u-boot-2017.03.orig/cmd/Kconfig
++++ u-boot-2017.03/cmd/Kconfig
+@@ -586,6 +586,7 @@ config CMD_PING
+ 
+ config CMD_CDP
+ 	bool "cdp"
++	default y
+ 	help
+ 	  Perform CDP network configuration
+ 
