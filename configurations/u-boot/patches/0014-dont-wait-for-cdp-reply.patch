@@ -1,0 +1,13 @@
+Index: u-boot-2017.03/net/cdp.c
+===================================================================
+--- u-boot-2017.03.orig/net/cdp.c
++++ u-boot-2017.03/net/cdp.c
+@@ -37,7 +37,7 @@ const u8 net_cdp_ethaddr[6] = { 0x01, 0x
+ #define CDP_TIMEOUT			250UL	/* one packet every 250ms */
+ 
+ static int cdp_seq;
+-static int cdp_ok;
++static int cdp_ok = 1;
+ 
+ ushort cdp_native_vlan;
+ ushort cdp_appliance_vlan;
