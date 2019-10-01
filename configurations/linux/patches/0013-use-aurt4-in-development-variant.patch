@@ -1,0 +1,31 @@
+Index: linux-4.4.182/arch/arm/boot/dts/urwerk-develop.dts
+===================================================================
+--- linux-4.4.182.orig/arch/arm/boot/dts/urwerk-develop.dts
++++ linux-4.4.182/arch/arm/boot/dts/urwerk-develop.dts
+@@ -20,12 +20,23 @@
+ //            USB-Debug-Mode:  DUART on external serial port, AUART4 disabled
+ //*************************************************************/
+ 
++/ {
++	aliases {
++		serial0 = &auart4;
++	};
++
++	chosen {
++		bootargs = "console=ttyAPP4,115200";
++		stdout-path = "serial0:115200n8";
++	};
++};
++
+ &duart {
+-	// duart on Urwerk's external RS232-Pins
+-	pinctrl-0 = <&duart_pins_b>;
++	// duart on Urwerk testpads
++	pinctrl-0 = <&duart_pins_a>;
+ 	status = "ok";
+ };
+ 
+ &auart4 {
+-	status = "disabled";
++	status = "ok";
+ };
