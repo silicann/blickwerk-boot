@@ -2,7 +2,14 @@ Source: linux-image-wurzelwerk-imx28
 Section: kernel
 Priority: optional
 Maintainer: Konrad Mohrfeldt <mohrfeldt@silicann.com>
-Build-Depends: build-essential, debhelper (>= 9), dh-exec, gcc-arm-linux-gnueabi, libssl-dev, lzop
+Build-Depends:
+ bc,
+ build-essential,
+ debhelper (>= 9),
+ dh-exec,
+ gcc-arm-linux-gnueabi,
+ libssl-dev,
+ lzop,
 Standards-Version: 3.9.8
 
 Package: linux-image-wurzelwerk-imx28-production
