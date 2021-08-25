@@ -10,7 +10,7 @@ Build-Depends:
  gcc-arm-linux-gnueabi,
  libssl-dev,
  lzop,
-Standards-Version: 3.9.8
+Standards-Version: 4.5.1
 
 Package: linux-image-wurzelwerk-imx28-production
 Architecture: all
